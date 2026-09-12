@@ -57,13 +57,31 @@ begin
     raise exception '보유 코인이 부족합니다.';
   end if;
 
-  v_symbols := array[
-    (floor(random() * 7) + 1)::int::text,
-    (floor(random() * 7) + 1)::int::text,
-    (floor(random() * 7) + 1)::int::text
-  ];
+  -- Higher bets receive higher win odds.
+  -- Base 8%, increasing linearly with the fraction of the current balance wagered, capped at 45%.
+  -- The result is still generated server-side; the client cannot choose the outcome.
+  v_win := random() < least(0.45, 0.08 + 0.37 * (bet_amount::numeric / greatest(v_balance, 1)));
 
-  v_win := v_symbols[1] = v_symbols[2] and v_symbols[2] = v_symbols[3];
+  if v_win then
+    -- Force a three-of-a-kind when the server-side win roll succeeds.
+    v_symbols := array[
+      (floor(random() * 7) + 1)::int::text,
+      (floor(random() * 7) + 1)::int::text,
+      (floor(random() * 7) + 1)::int::text
+    ];
+    v_symbols[2] := v_symbols[1];
+    v_symbols[3] := v_symbols[1];
+  else
+    -- Generate a guaranteed non-matching result on a loss.
+    v_symbols := array[
+      (floor(random() * 7) + 1)::int::text,
+      (floor(random() * 7) + 1)::int::text,
+      (floor(random() * 7) + 1)::int::text
+    ];
+    while v_symbols[1] = v_symbols[2] and v_symbols[2] = v_symbols[3] loop
+      v_symbols[3] := ((v_symbols[3]::int % 7) + 1)::text;
+    end loop;
+  end if;
   if v_win then
     v_payout := bet_amount * 2;
   end if;

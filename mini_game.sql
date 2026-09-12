@@ -57,10 +57,8 @@ begin
     raise exception '보유 코인이 부족합니다.';
   end if;
 
-  -- Higher bets receive higher win odds.
-  -- Base 8%, increasing linearly with the fraction of the current balance wagered, capped at 45%.
-  -- The result is still generated server-side; the client cannot choose the outcome.
-  v_win := random() < least(0.45, 0.08 + 0.37 * (bet_amount::numeric / greatest(v_balance, 1)));
+  -- Fixed 30% win probability. The result is generated server-side.
+  v_win := random() < 0.30;
 
   if v_win then
     -- Force a three-of-a-kind when the server-side win roll succeeds.

@@ -67,7 +67,6 @@ AS $function$
 declare
   v_uid uuid := auth.uid();
   v_balance bigint;
-  v_roll numeric;
   v_reward bigint := 0;
   v_new_balance bigint;
 begin
@@ -76,14 +75,11 @@ begin
   if v_balance is null then raise exception '회원 정보를 찾을 수 없습니다.'; end if;
   if v_balance < 1 then raise exception '코인이 부족합니다.'; end if;
 
-  -- 돌림판 보상: 꽝 40%, +1 20%, +2 15%, +3 10%, +5 10%, +10 5%
-  v_roll := random();
-  if v_roll < 0.40 then v_reward := 0;
-  elsif v_roll < 0.60 then v_reward := 1;
-  elsif v_roll < 0.75 then v_reward := 2;
-  elsif v_roll < 0.85 then v_reward := 3;
-  elsif v_roll < 0.95 then v_reward := 5;
-  else v_reward := 10;
+  -- 돌림판: 꽝 70%, 당첨 30%. 당첨 시 사용한 1코인의 2배(2코인)를 지급.
+  if random() < 0.30 then
+    v_reward := 2;
+  else
+    v_reward := 0;
   end if;
 
   v_new_balance := v_balance - 1 + v_reward;

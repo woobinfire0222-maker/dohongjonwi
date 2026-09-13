@@ -3,6 +3,9 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1mbGVxdXFibmNwenp3ZG1pYnR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg0MjAzNDYsImV4cCI6MjEwMzk5NjM0Nn0.aNXdE5V2nhu41toGN2k7sJymYTsjGUs-ZTRuhorCPdA';
   const VAPID_PUBLIC_KEY = 'BGcf3PbqW1E0HYiQ9VTOSuFaB7xuybNr25z0KOEb03HJ8-lcdisYhk65hNdAlkbvgB2daTcLkz_O17_sBHCe-eI';
   const DB = `${SUPABASE_URL}/rest/v1/push_subscriptions`;
+  const BASE = window.__DOHONG_BASE__ || (location.hostname.endsWith('.github.io') && location.pathname.split('/').filter(Boolean)[0] ? `/${location.pathname.split('/').filter(Boolean)[0]}` : '');
+  const SW_URL = `${BASE}/service-worker.js`;
+  const SW_SCOPE = `${BASE || '/'}`;
   const AUTH_KEY = `sb-${new URL(SUPABASE_URL).hostname.split('.')[0]}-auth-token`;
   const KEY = 'dohongjonwi_push_prompt_dismissed';
 
@@ -13,10 +16,19 @@
   };
   const getSession = () => {
     try {
-      const raw = localStorage.getItem(AUTH_KEY);
-      if (!raw) return null;
-      const parsed = JSON.parse(raw);
-      return parsed?.access_token ? parsed : parsed?.currentSession || null;
+      const keys = [AUTH_KEY];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('sb-') && k.endsWith('-auth-token') && !keys.includes(k)) keys.push(k);
+      }
+      for (const key of keys) {
+        const raw = localStorage.getItem(key);
+        if (!raw) continue;
+        const parsed = JSON.parse(raw);
+        const session = parsed?.access_token ? parsed : parsed?.currentSession || null;
+        if (session?.access_token) return session;
+      }
+      return null;
     } catch (_) { return null; }
   };
   const rest = async (path, options = {}) => {
@@ -47,7 +59,7 @@
     if (Notification.permission === 'denied') throw new Error('브라우저 알림 권한이 차단되어 있습니다. 사이트 권한에서 허용해 주세요.');
     const permission = Notification.permission === 'granted' ? 'granted' : await Notification.requestPermission();
     if (permission !== 'granted') return false;
-    const reg = await navigator.serviceWorker.register('./service-worker.js', { scope: './' });
+    const reg = await navigator.serviceWorker.register(SW_URL, { scope: SW_SCOPE });
     let sub = await reg.pushManager.getSubscription();
     if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToUint8(VAPID_PUBLIC_KEY) });
     await saveSubscription(sub);
@@ -68,7 +80,7 @@
   const init = () => {
     if (!location.protocol.startsWith('http')) return;
     if (!('serviceWorker' in navigator)) return;
-    navigator.serviceWorker.register('./service-worker.js', { scope: './' }).catch(() => {});
+    navigator.serviceWorker.register(SW_URL, { scope: SW_SCOPE }).catch(() => {});
     setTimeout(showPrompt, 1200);
   };
   window.dohongPush = { subscribe };

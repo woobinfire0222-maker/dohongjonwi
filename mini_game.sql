@@ -58,7 +58,7 @@ $function$;
 
 grant execute on function public.play_entertainment_game(bigint) to authenticated;
 
-CREATE OR REPLACE FUNCTION public.play_wheel_game()
+CREATE OR REPLACE FUNCTION public.play_wheel_game(bet_amount bigint)
 RETURNS jsonb
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -67,25 +67,52 @@ AS $function$
 declare
   v_uid uuid := auth.uid();
   v_balance bigint;
-  v_reward bigint := 0;
+  v_won boolean;
+  v_payout bigint := 0;
   v_new_balance bigint;
 begin
   if v_uid is null then raise exception '로그인이 필요합니다.'; end if;
+  if bet_amount is null or bet_amount <= 0 then raise exception '배팅 금액이 올바르지 않습니다.'; end if;
   select coin_balance into v_balance from public.profiles where id=v_uid for update;
   if v_balance is null then raise exception '회원 정보를 찾을 수 없습니다.'; end if;
-  if v_balance < 1 then raise exception '코인이 부족합니다.'; end if;
-
-  -- 돌림판: 꽝 70%, 당첨 30%. 당첨 시 사용한 1코인의 2배(2코인)를 지급.
-  if random() < 0.30 then
-    v_reward := 2;
-  else
-    v_reward := 0;
-  end if;
-
-  v_new_balance := v_balance - 1 + v_reward;
+  if v_balance < bet_amount then raise exception '코인이 부족합니다.'; end if;
+  v_won := random() < 0.30;
+  if v_won then v_payout := bet_amount * 2; end if;
+  v_new_balance := v_balance - bet_amount + v_payout;
   update public.profiles set coin_balance=v_new_balance where id=v_uid;
-  return jsonb_build_object('cost',1,'reward',v_reward,'new_balance',v_new_balance);
+  return jsonb_build_object('bet',bet_amount,'won',v_won,'payout',v_payout,'new_balance',v_new_balance);
 end;
 $function$;
 
-grant execute on function public.play_wheel_game() to authenticated;
+grant execute on function public.play_wheel_game(bigint) to authenticated;
+
+CREATE OR REPLACE FUNCTION public.play_horse_race_game(bet_horse integer, bet_amount bigint)
+RETURNS jsonb
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path TO 'public'
+AS $function$
+declare
+  v_uid uuid := auth.uid();
+  v_balance bigint;
+  v_winner integer;
+  v_won boolean;
+  v_payout bigint := 0;
+  v_new_balance bigint;
+begin
+  if v_uid is null then raise exception '로그인이 필요합니다.'; end if;
+  if bet_horse is null or bet_horse < 1 or bet_horse > 4 then raise exception '말 선택이 올바르지 않습니다.'; end if;
+  if bet_amount is null or bet_amount <= 0 then raise exception '배팅 금액이 올바르지 않습니다.'; end if;
+  select coin_balance into v_balance from public.profiles where id=v_uid for update;
+  if v_balance is null then raise exception '회원 정보를 찾을 수 없습니다.'; end if;
+  if v_balance < bet_amount then raise exception '코인이 부족합니다.'; end if;
+  v_winner := floor(random()*4)::integer + 1;
+  v_won := v_winner = bet_horse;
+  if v_won then v_payout := bet_amount * 2; end if;
+  v_new_balance := v_balance - bet_amount + v_payout;
+  update public.profiles set coin_balance=v_new_balance where id=v_uid;
+  return jsonb_build_object('bet_horse',bet_horse,'winner',v_winner,'won',v_won,'bet',bet_amount,'payout',v_payout,'new_balance',v_new_balance);
+end;
+$function$;
+
+grant execute on function public.play_horse_race_game(integer,bigint) to authenticated;

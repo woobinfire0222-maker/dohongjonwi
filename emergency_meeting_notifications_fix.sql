@@ -25,7 +25,7 @@ on public.emergency_meeting_participants(meeting_id);
 create index if not exists emergency_meeting_participants_user_idx
 on public.emergency_meeting_participants(user_id);
 
-create or replace function public.join_emergency_meeting(meeting_id text)
+create or replace function public.join_emergency_meeting(p_meeting_id text)
 returns jsonb
 language plpgsql
 security definer
@@ -38,23 +38,23 @@ declare
   v_count bigint;
 begin
   if v_uid is null then raise exception '로그인이 필요합니다.'; end if;
-  if meeting_id is null or btrim(meeting_id) = '' then raise exception '회의 정보가 올바르지 않습니다.'; end if;
+  if p_meeting_id is null or btrim(p_meeting_id) = '' then raise exception '회의 정보가 올바르지 않습니다.'; end if;
 
   select true, status::text into v_exists, v_status
   from public.emergency_meetings
-  where id::text = meeting_id
+  where id::text = p_meeting_id
   limit 1;
 
   if not coalesce(v_exists,false) then raise exception '존재하지 않는 긴급회의입니다.'; end if;
   if v_status not in ('active','live','scheduled') then raise exception '현재 참여할 수 없는 회의입니다.'; end if;
 
   insert into public.emergency_meeting_participants(meeting_id,user_id)
-  values (meeting_id,v_uid)
+  values (p_meeting_id,v_uid)
   on conflict (meeting_id,user_id) do nothing;
 
-  select count(*) into v_count from public.emergency_meeting_participants where meeting_id = join_emergency_meeting.meeting_id;
+  select count(*) into v_count from public.emergency_meeting_participants where emergency_meeting_participants.meeting_id = p_meeting_id;
 
-  return jsonb_build_object('meeting_id',meeting_id,'joined',true,'participant_count',v_count);
+  return jsonb_build_object('meeting_id',p_meeting_id,'joined',true,'participant_count',v_count);
 end;
 $$;
 

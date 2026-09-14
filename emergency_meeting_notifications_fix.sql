@@ -25,7 +25,9 @@ on public.emergency_meeting_participants(meeting_id);
 create index if not exists emergency_meeting_participants_user_idx
 on public.emergency_meeting_participants(user_id);
 
-create or replace function public.join_emergency_meeting(p_meeting_id text)
+drop function if exists public.join_emergency_meeting(text);
+
+create function public.join_emergency_meeting(p_meeting_id text)
 returns jsonb
 language plpgsql
 security definer

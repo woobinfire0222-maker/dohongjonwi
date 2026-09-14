@@ -5,7 +5,7 @@
   const DB = `${SUPABASE_URL}/rest/v1/push_subscriptions`;
   const BASE = window.__DOHONG_BASE__ || (location.hostname.endsWith('.github.io') && location.pathname.split('/').filter(Boolean)[0] ? `/${location.pathname.split('/').filter(Boolean)[0]}` : '');
   const SW_URL = `${BASE}/service-worker.js`;
-  const SW_SCOPE = `${BASE || '/'}`;
+  const SW_SCOPE = `${BASE || ''}/`;
   const AUTH_KEY = `sb-${new URL(SUPABASE_URL).hostname.split('.')[0]}-auth-token`;
   const KEY = 'dohongjonwi_push_prompt_dismissed';
 
@@ -68,14 +68,15 @@
     return true;
   };
   const showPrompt = () => {
-    if (localStorage.getItem(KEY) === '1' || Notification.permission === 'granted' || Notification.permission === 'denied') return;
+    if (localStorage.getItem(KEY) === '1' || Notification.permission === 'granted') return;
     if (document.getElementById('push-permission-banner')) return;
     const el = document.createElement('div');
     el.id = 'push-permission-banner';
-    el.innerHTML = `<div style="position:fixed;right:20px;bottom:20px;z-index:99999;width:min(380px,calc(100vw - 40px));padding:18px;border:1px solid rgba(128,128,128,.22);border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 12px 40px rgba(0,0,0,.16);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"><div style="font-size:16px;font-weight:800">🔔 알림을 켜시겠어요?</div><div style="margin-top:7px;font-size:13px;line-height:1.5;color:#666">새 메시지와 관리자 알림을 사이트를 닫은 뒤에도 받을 수 있습니다.</div><div style="display:flex;gap:8px;margin-top:14px"><button id="push-allow" style="flex:1;border:0;border-radius:10px;padding:10px;background:#111;color:#fff;font-weight:700;cursor:pointer">알림 허용</button><button id="push-later" style="border:0;border-radius:10px;padding:10px 13px;background:#eee;color:#333;font-weight:600;cursor:pointer">나중에</button></div><div id="push-error" style="margin-top:8px;font-size:11px;color:#d33"></div></div>`;
+    el.innerHTML = `<div style="position:fixed;right:20px;bottom:20px;z-index:99999;width:min(380px,calc(100vw - 40px));padding:18px;border:1px solid rgba(128,128,128,.22);border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 12px 40px rgba(0,0,0,.16);font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"><div style="font-size:16px;font-weight:800">🔔 알림 설정</div><div id="push-help" style="margin-top:7px;font-size:13px;line-height:1.5;color:#666">새 메시지와 관리자 알림을 받을 수 있습니다.</div><div style="display:flex;gap:8px;margin-top:14px"><button id="push-allow" style="flex:1;border:0;border-radius:10px;padding:10px;background:#111;color:#fff;font-weight:700;cursor:pointer">알림 허용</button><button id="push-later" style="border:0;border-radius:10px;padding:10px 13px;background:#eee;color:#333;font-weight:600;cursor:pointer">나중에</button></div><div id="push-error" style="margin-top:8px;font-size:11px;color:#d33"></div></div>`;
     document.body.appendChild(el);
     document.getElementById('push-later').onclick = () => { localStorage.setItem(KEY, '1'); el.remove(); };
-    document.getElementById('push-allow').onclick = async () => { const b=document.getElementById('push-allow'); const er=document.getElementById('push-error'); b.disabled=true; b.textContent='설정 중...'; try { await subscribe(); } catch(e) { er.textContent=e?.message||'알림 설정에 실패했습니다.'; b.disabled=false; b.textContent='다시 시도'; } };
+    document.getElementById('push-allow').onclick = async () => { const b=document.getElementById('push-allow'); const er=document.getElementById('push-error'); if(Notification.permission==='denied'){ er.textContent='브라우저의 사이트 권한에서 알림을 허용한 뒤 다시 눌러 주세요.'; return; } b.disabled=true; b.textContent='설정 중...'; try { await subscribe(); } catch(e) { er.textContent=e?.message||'알림 설정에 실패했습니다.'; b.disabled=false; b.textContent='다시 시도'; } };
+    if(Notification.permission==='denied'){ document.getElementById('push-help').textContent='현재 브라우저에서 알림이 차단되어 있습니다. 사이트 권한에서 알림을 허용해 주세요.'; document.getElementById('push-allow').textContent='브라우저 권한 확인'; }
   };
   const init = () => {
     if (!location.protocol.startsWith('http')) return;

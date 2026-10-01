@@ -48,7 +48,7 @@ async function adminUpdateDepartment(n,e,r,i,l){const{data:c,error:d}=await Me.r
 async function adminDeleteDepartment(n){const{data:e,error:r}=await Me.rpc("admin_delete_department",{p_id:n});return it(e,r,"부서를 삭제하지 못했습니다.")}
 
 async function getPolls(){await Ze();const{data:n,error:e}=await Me.from("polls").select("*,poll_options:poll_options(id,label,option_order)").order("created_at",{ascending:!1});if(e)throw new Error(Bn(e,"투표 목록을 불러오지 못했습니다."));return(n??[]).map(x=>({...x,options:(x.poll_options??[]).sort((a,b)=>Number(a.option_order)-Number(b.option_order))}))}
-async function getMyPollVotes(){const n=await Ze(),{data:e,error:r}=await Me.from("poll_votes").select("poll_id,option_id").eq("user_id",n.id);return it(e,r,"내 투표 기록을 불러오지 못했습니다.")??[]}
+async function getMyPollVotes(){const{data:n,error:e}=await Me.rpc("get_my_poll_votes");return it(n,e,"내 투표 기록을 불러오지 못했습니다.")??[]}
 async function getPollResults(n){const{data:e,error:r}=await Me.rpc("get_poll_results",{p_poll_id:n});return it(e,r,"투표 결과를 불러오지 못했습니다.")??{}}
 async function votePoll(n,e){const{data:r,error:i}=await Me.rpc("vote_poll",{p_poll_id:n,p_option_id:e});return it(r,i,"투표를 제출하지 못했습니다.")}
 async function adminCreatePoll(n,e,r,i,l){const{data:c,error:d}=await Me.rpc("admin_create_poll",{p_title:n,p_description:e,p_poll_type:r,p_ends_at:i,p_options:l});return it(c,d,"투표를 만들지 못했습니다.")}

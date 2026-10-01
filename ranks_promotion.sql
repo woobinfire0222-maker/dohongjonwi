@@ -178,21 +178,14 @@ declare
 begin
   if v_uid is null then raise exception '로그인이 필요합니다.'; end if;
 
-  -- profiles 행만 잠근 뒤 rank 정보를 별도로 읽습니다.
-  -- LEFT JOIN 결과에 FOR UPDATE를 걸면 PostgreSQL에서 nullable 측 때문에 오류가 날 수 있습니다.
-  select p.rank_id, p.coin_balance
-    into v_current_id, v_balance
+  select p.rank_id, coalesce(r.rank_order,0), p.coin_balance
+    into v_current_id, v_current_order, v_balance
   from public.profiles p
+  left join public.ranks r on r.id=p.rank_id
   where p.id=v_uid
   for update;
 
   if v_balance is null then raise exception '회원 정보를 찾을 수 없습니다.'; end if;
-
-  select coalesce(r.rank_order,0)
-    into v_current_order
-  from public.ranks r
-  where r.id=v_current_id;
-  v_current_order := coalesce(v_current_order,0);
   if exists(select 1 from public.rank_promotion_requests where user_id=v_uid and status='pending') then
     raise exception '이미 심사 중인 진급 요청이 있습니다.';
   end if;
@@ -616,16 +609,10 @@ declare
   v_new_balance bigint;
 begin
   if v_uid is null then raise exception '로그인이 필요합니다.'; end if;
-  -- profiles 행만 잠급니다. LEFT JOIN + FOR UPDATE 조합을 피합니다.
-  select p.coin_balance, p.rank_id into v_balance, v_next_id
-  from public.profiles p
+  select coalesce(r.rank_order,0),p.coin_balance into v_current_order,v_balance
+  from public.profiles p left join public.ranks r on r.id=p.rank_id
   where p.id=v_uid for update;
   if v_balance is null then raise exception '회원 정보를 찾을 수 없습니다.'; end if;
-
-  select coalesce(r.rank_order,0) into v_current_order
-  from public.ranks r
-  where r.id=v_next_id;
-  v_current_order := coalesce(v_current_order,0);
 
   -- 숫자가 작을수록 높은 계급. 현재보다 번호가 1 낮아지는 가장 가까운 계급을 찾습니다.
   select id,name,is_high_rank,promotion_cost into v_next_id,v_next_name,v_next_high,v_cost

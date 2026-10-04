@@ -7,21 +7,33 @@ create table if not exists public.membership_contract_agreements (
 
 alter table public.membership_contract_agreements enable row level security;
 
-drop policy if exists "members can read own contract agreement" on public.membership_contract_agreements;
-create policy "members can read own contract agreement"
-  on public.membership_contract_agreements for select
-  using (auth.uid() = user_id);
+-- 이전에 생성된 정책 이름이 무엇이든 모두 제거하여
+-- INSERT에서 잘못된 USING 정책이 남아있는 문제를 방지합니다.
+do $$
+declare
+  p record;
+begin
+  for p in
+    select policyname
+    from pg_policies
+    where schemaname = 'public'
+      and tablename = 'membership_contract_agreements'
+  loop
+    execute format('drop policy if exists %I on public.membership_contract_agreements', p.policyname);
+  end loop;
+end $$;
 
-drop policy if exists "members can create own contract agreement" on public.membership_contract_agreements;
-create policy "members can create own contract agreement"
-  on public.membership_contract_agreements for insert
-  with check (auth.uid() = user_id);
+create policy "membership_contract_select_own"
+on public.membership_contract_agreements
+for select
+to authenticated
+using (auth.uid() = user_id);
 
-drop policy if exists "members can update own contract agreement" on public.membership_contract_agreements;
-create policy "members can update own contract agreement"
-  on public.membership_contract_agreements for update
-  using (auth.uid() = user_id)
-  with check (auth.uid() = user_id);
+create policy "membership_contract_insert_own"
+on public.membership_contract_agreements
+for insert
+to authenticated
+with check (auth.uid() = user_id);
 
 create index if not exists membership_contract_agreements_accepted_at_idx
-  on public.membership_contract_agreements(accepted_at desc);
+on public.membership_contract_agreements(accepted_at desc);

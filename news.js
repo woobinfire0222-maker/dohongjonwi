@@ -97,8 +97,12 @@
   async function tick(){
     injectStyles();
     if(location.pathname!==lastPath){lastPath=location.pathname;document.querySelector('.dh-news-overlay')?.remove()}
-    if(location.pathname.startsWith('/admin')) { if(await isAdmin()) adminPanel(); }
-    else if(location.pathname.startsWith('/app')) addSidebarLink();
+
+    // 이 사이트는 GitHub Pages SPA라서 /admin, /app 같은 별도 경로를 사용하지 않습니다.
+    // 실제 화면이 렌더링된 뒤 DOM을 기준으로 뉴스 메뉴/관리 패널을 붙입니다.
+    addSidebarLink();
+    if(await isAdmin()) adminPanel();
+
     if(location.hash==='#news'&&!document.querySelector('.dh-news-overlay')) renderPublic();
   }
   window.addEventListener('popstate',tick); window.addEventListener('hashchange',tick);

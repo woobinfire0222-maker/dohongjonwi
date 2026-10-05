@@ -223,16 +223,16 @@ function Tr(n){return new Intl.DateTimeFormat("ko-KR",{month:"long",day:"numeric
       })});
   return m.jsxs("div",{className:"chat-page mx-auto max-w-6xl",children:[
     m.jsx(Rr,{eyebrow:"LIVE CHANNEL",title:"단체 채팅 · DM",description:"전체·부서 채팅과 회원 간 1:1 대화를 이용하세요.",action:m.jsxs("div",{className:"flex items-center gap-2 rounded-full border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground",children:[m.jsx("span",{className:"h-2 w-2 rounded-full bg-emerald-500"}),"실시간 연결"]})}),
-    m.jsxs("div",{className:`chat-layout grid min-h-0 gap-5 lg:grid-cols-[270px_1fr] chat-mode-${mode} ${(mode==="room"?!!roomId:!!memberId)?"has-selection":"no-selection"}`,style:{height:"min(620px,calc(100dvh - 220px))",minHeight:"420px",maxHeight:"620px"},children:[
-      rooms&&members?m.jsxs(ze,{className:"chat-sidebar flex h-full min-h-0 flex-col overflow-hidden",style:{minHeight:0,maxHeight:"100%"},children:[
+    m.jsxs("div",{className:"chat-layout grid min-h-0 gap-5 lg:grid-cols-[270px_1fr]",style:{height:"min(620px,calc(100dvh - 220px))",minHeight:"420px",maxHeight:"620px"},children:[
+      rooms&&members?m.jsxs(ze,{className:"flex h-full min-h-0 flex-col overflow-hidden",style:{minHeight:0,maxHeight:"100%"},children:[
         m.jsxs("div",{className:"grid shrink-0 grid-cols-2 gap-1 border-b p-3",children:[
           m.jsxs("button",{type:"button",onClick:()=>setMode("room"),className:`rounded-lg px-3 py-2 text-xs font-bold ${mode==="room"?"bg-primary text-primary-foreground":"text-muted-foreground hover:bg-muted"}`,children:[m.jsx(wi,{size:14,className:"mr-1 inline"}),"채팅방"]}),
           m.jsxs("button",{type:"button",onClick:()=>setMode("dm"),className:`rounded-lg px-3 py-2 text-xs font-bold ${mode==="dm"?"bg-primary text-primary-foreground":"text-muted-foreground hover:bg-muted"}`,children:[m.jsx(Ga,{size:14,className:"mr-1 inline"}),"1:1 DM"]})
         ]}),
         m.jsx("div",{className:"min-h-0 flex-1 overflow-y-auto overscroll-contain",children:mode==="room"?m.jsxs(m.Fragment,{children:[m.jsxs("div",{className:"sticky top-0 z-10 border-b bg-card/95 px-5 py-4 text-xs font-bold text-muted-foreground backdrop-blur",children:["참여 가능한 채팅방 ",rooms.length]}),rooms.map(room=>m.jsxs("button",{type:"button",onClick:()=>setRoomId(room.id),className:`flex w-full items-start gap-3 border-b px-5 py-4 text-left transition last:border-0 ${String(roomId)===String(room.id)?"bg-primary/8 text-primary":"hover:bg-muted/50"}`,children:[m.jsx("span",{className:`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${String(roomId)===String(room.id)?"bg-primary text-primary-foreground":"bg-secondary text-primary"}`,children:m.jsx(wi,{size:16})}),m.jsxs("span",{className:"min-w-0 flex-1",children:[m.jsx("strong",{className:"block text-sm",children:room.name}),m.jsxs("small",{className:"mt-1 block line-clamp-2 text-xs text-muted-foreground",children:[room.department?_r[room.department]:"모든 회원"," · ",room.description]})]}),unread[`room:${room.id}`]>0&&m.jsx("span",{className:"mt-1 rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground",children:unread[`room:${room.id}`]>99?"99+":unread[`room:${room.id}`]})]},room.id))]}):m.jsxs(m.Fragment,{children:[m.jsxs("div",{className:"sticky top-0 z-10 border-b bg-card/95 px-5 py-4 text-xs font-bold text-muted-foreground backdrop-blur",children:["대화할 회원 ",members.length]}),members.length?members.map(member=>m.jsxs("button",{type:"button",onClick:()=>setMemberId(member.id),className:`flex w-full items-center gap-3 border-b px-5 py-4 text-left transition last:border-0 ${String(memberId)===String(member.id)?"bg-primary/8 text-primary":"hover:bg-muted/50"}`,children:[m.jsx("span",{className:`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${String(memberId)===String(member.id)?"bg-primary text-primary-foreground":"bg-secondary text-primary"}`,children:m.jsx(Ga,{size:15})}),m.jsxs("span",{className:"min-w-0 flex-1",children:[m.jsx("strong",{className:"block truncate text-sm",children:member.display_name}),m.jsx("small",{className:"mt-1 block text-xs text-muted-foreground",children:_r[member.department]})]}),unread[`dm:${member.id}`]>0&&m.jsx("span",{className:"rounded-full bg-primary px-2 py-0.5 text-[10px] font-bold text-primary-foreground",children:unread[`dm:${member.id}`]>99?"99+":unread[`dm:${member.id}`]})]},member.id)):m.jsx("div",{className:"p-5",children:m.jsx(Tn,{title:"대화할 회원이 없습니다",description:"다른 회원이 가입하면 DM을 시작할 수 있습니다.",icon:m.jsx(yc,{size:20})})})]})})
       ]}):m.jsx(ms,{className:"h-[560px]"}),
-      m.jsxs(ze,{className:"chat-main flex h-full min-h-0 flex-col overflow-hidden",style:{minHeight:0,maxHeight:"100%"},children:[
-        m.jsxs("div",{className:"flex shrink-0 items-center justify-between border-b px-5 py-3 sm:px-6",children:[m.jsx("button",{type:"button",className:"chat-mobile-back mr-2 shrink-0 rounded-lg px-2 py-2 text-sm font-bold text-muted-foreground hover:bg-muted",onClick:()=>{if(mode==="room")setRoomId(null);else setMemberId(null)},children:"‹ 목록"}),m.jsxs("div",{className:"min-w-0 flex-1",children:[m.jsx("h2",{className:"font-bold",children:mode==="room"?activeRoom?.name??"채팅방":activeMember?.display_name??"DM을 선택하세요"}),m.jsx("p",{className:"mt-1 text-xs text-muted-foreground",children:mode==="room"?activeRoom?.department?`${_r[activeRoom.department]} 전용 채팅`:"모든 회원이 참여하는 단체 채팅":activeMember?`${_r[activeMember.department]} · 1:1 대화`:"왼쪽에서 대화할 회원을 선택하세요"})]}),m.jsx("button",{type:"button",className:"rounded-lg p-2 text-muted-foreground hover:bg-muted disabled:opacity-40",disabled:mode==="room"?!roomId:!memberId,onClick:()=>mode==="room"?nb(roomId).then(setRoomMessages):sb(memberId).then(setDmMessages),children:m.jsx(nh,{size:17})})]}),
+      m.jsxs(ze,{className:"flex h-full min-h-0 flex-col overflow-hidden",style:{minHeight:0,maxHeight:"100%"},children:[
+        m.jsxs("div",{className:"flex shrink-0 items-center justify-between border-b px-5 py-4 sm:px-6",children:[m.jsxs("div",{children:[m.jsx("h2",{className:"font-bold",children:mode==="room"?activeRoom?.name??"채팅방":activeMember?.display_name??"DM을 선택하세요"}),m.jsx("p",{className:"mt-1 text-xs text-muted-foreground",children:mode==="room"?activeRoom?.department?`${_r[activeRoom.department]} 전용 채팅`:"모든 회원이 참여하는 단체 채팅":activeMember?`${_r[activeMember.department]} · 1:1 대화`:"왼쪽에서 대화할 회원을 선택하세요"})]}),m.jsx("button",{type:"button",className:"rounded-lg p-2 text-muted-foreground hover:bg-muted disabled:opacity-40",disabled:mode==="room"?!roomId:!memberId,onClick:()=>mode==="room"?nb(roomId).then(setRoomMessages):sb(memberId).then(setDmMessages),children:m.jsx(nh,{size:17})})]}),
         m.jsxs("div",{className:"relative min-h-0 flex-1",children:[m.jsx("div",{ref:scrollRef,className:"h-full min-h-0 overflow-y-auto overscroll-contain bg-background/50 p-5 sm:p-6",style:{minHeight:0,overflowX:"hidden",overflowY:"auto",WebkitOverflowScrolling:"touch",scrollbarGutter:"stable"},children:messageBody}),!atBottom&&m.jsx("button",{type:"button",onClick:()=>{const el=scrollRef.current;if(el){el.scrollTo({top:el.scrollHeight,behavior:"smooth"});markChatRead(mode,currentTarget).catch(()=>{});clearUnread(currentKey)}},className:"absolute bottom-4 right-4 z-10 flex h-9 items-center gap-2 rounded-full border bg-card px-3 shadow-md text-xs font-bold text-muted-foreground hover:bg-muted","aria-label":"최신 메시지로 이동",children:[m.jsx(Ci,{size:15}),unread[currentKey]>0?`새 메시지 ${unread[currentKey]}`:"최신 메시지"]}),unread[currentKey]>0&&!atBottom&&m.jsx("div",{className:"pointer-events-none absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-full border bg-card px-3 py-1.5 text-[11px] font-bold shadow-sm",children:`읽지 않은 메시지 ${unread[currentKey]}`})]}),
         m.jsxs("div",{className:"shrink-0 border-t bg-card",children:[replyTo&&m.jsxs("div",{className:"flex items-center justify-between gap-3 border-b bg-muted/30 px-4 py-2 text-xs",children:[m.jsxs("div",{className:"min-w-0",children:[m.jsx("strong",{className:"mr-2",children:"답장 대상"}),m.jsxs("span",{className:"text-muted-foreground",children:[replyTo.sender_name??"회원",": ",replyTo.deleted_at?"삭제된 메시지":replyTo.content]})]}),m.jsx("button",{type:"button",onClick:()=>setReplyTo(null),className:"shrink-0 rounded px-2 py-1 text-muted-foreground hover:bg-muted",children:"취소"})]}),m.jsxs("form",{onSubmit:send,className:"p-4",children:m.jsxs("div",{className:"flex items-center gap-2",children:[m.jsx(Ot,{value:text,onChange:ev=>setText(ev.target.value),disabled:mode==="room"?!roomId:!memberId,placeholder:mode==="room"?"메시지를 입력하세요":"DM을 입력하세요"}),m.jsx(Ve,{type:"submit",disabled:!text.trim()||(mode==="room"?!roomId:!memberId),loading:sending,className:"h-11 w-11 shrink-0 px-0","aria-label":"메시지 보내기",children:m.jsx(GT,{size:16})})]})})]})
       ]})
@@ -362,45 +362,6 @@ html,body{background:#f7f7f5;color:#171717}.arcade-screen{min-height:100dvh;back
 .arcade-machine{border-color:#f00;box-shadow:0 0 0 7px #260000,0 0 35px #f00,0 0 110px rgba(255,0,0,.5),inset 0 0 60px #350000;animation:machineIdle .8s infinite alternate}.arcade-machine.winner{animation:machineWin .16s infinite alternate}.arcade-reel{position:relative;overflow:hidden;border-color:#450000;box-shadow:inset 0 0 45px #555,0 0 28px #f00,0 0 70px rgba(255,0,0,.3)}.arcade-spin{transform:translateZ(0);text-shadow:0 0 10px #fff}.arcade-spin:before{content:"";position:absolute}.arcade-controls{position:relative;z-index:3}.arcade-bet-note{margin-top:7px;color:#a11;font-size:9px;font-weight:900;letter-spacing:.15em;text-shadow:0 0 10px #f00}.arcade-flash{position:absolute;inset:0;z-index:20;pointer-events:none;background:#fff;opacity:0}.arcade-particles{position:absolute;inset:0;z-index:19;pointer-events:none;overflow:hidden;opacity:0}.arcade-particles i{position:absolute;left:50%;top:47%;width:5px;height:18px;background:#f00;box-shadow:0 0 12px #f00;transform:rotate(calc(var(--i) * 37deg)) translateY(-10px);transform-origin:50% 250px}.final-win .arcade-particles{opacity:1;animation:particleBurst 1.35s ease-out both}.final-win .arcade-flash{animation:megaFlash .8s ease-out both}.final-lose .arcade-flash{background:#900;animation:loseFlash .45s ease-out both}.final-win .arcade-headline h2{color:#fff;text-shadow:0 0 8px #fff,0 0 30px #f00,0 0 80px #f00,0 0 140px #f00;animation:headlinePulse .16s infinite alternate}.final-win .arcade-result{animation:jackpotSlam .55s cubic-bezier(.08,1.8,.2,1) both, resultPulse .2s infinite alternate}.final-lose .arcade-result{animation:loseSlam .4s cubic-bezier(.2,1.8,.3,1) both}.reveal-one .reel-1{animation:revealNuclear .5s cubic-bezier(.08,1.9,.18,1) both}.reveal-two .reel-2{animation:revealNuclear .5s cubic-bezier(.08,1.9,.18,1) both}.reveal-three .reel-3{animation:revealNuclear .6s cubic-bezier(.08,1.9,.18,1) both}.reveal-one .reel-1:after,.reveal-two .reel-2:after,.reveal-three .reel-3:after{content:"";position:absolute;inset:-8px;border:5px solid #f00;box-shadow:0 0 20px #f00,0 0 60px #f00,0 0 120px #f00;animation:reelRing .45s ease-out both}.reveal-three .reel-3:after{border-color:#fff;box-shadow:0 0 20px #fff,0 0 60px #f00,0 0 140px #f00}.reveal-one .reel-1 .reel-hit,.reveal-two .reel-2 .reel-hit,.reveal-three .reel-3 .reel-hit{animation:hitMega .48s ease-out both}.arcade-win{animation:screenShakeHard .12s 8,screenFlashRed .18s 5}.arcade-lose{animation:screenShake .1s 5}
 @keyframes machineIdle{to{box-shadow:0 0 0 7px #260000,0 0 60px #f00,0 0 130px rgba(255,0,0,.6),inset 0 0 70px #450000}}@keyframes machineWin{to{transform:scale(1.012);box-shadow:0 0 0 9px #500,0 0 80px #fff,0 0 180px #f00,inset 0 0 90px #700}}@keyframes revealNuclear{0%{transform:scale(.72) translateY(-35px) rotate(-2deg);filter:brightness(1)}30%{transform:scale(1.2) translateY(8px) rotate(2deg);filter:brightness(4)}55%{transform:scale(.96) translateY(-3px);filter:brightness(1.5)}100%{transform:scale(1);filter:brightness(1)}}@keyframes reelRing{0%{opacity:0;transform:scale(.55);border-radius:50%}35%{opacity:1;transform:scale(1.08)}100%{opacity:0;transform:scale(1.35)}}@keyframes hitMega{0%{opacity:0;transform:scale(.2)}30%{opacity:1;transform:scale(1.5);filter:brightness(3)}100%{opacity:0;transform:scale(2.6)}}@keyframes megaFlash{0%,100%{opacity:0}12%{opacity:.95}22%{opacity:0}35%{opacity:.7}45%{opacity:0}}@keyframes loseFlash{20%{opacity:.35}100%{opacity:0}}@keyframes particleBurst{0%{transform:scale(.2) rotate(0deg);opacity:0}12%{opacity:1}100%{transform:scale(1.5) rotate(40deg);opacity:0}}@keyframes jackpotSlam{0%{opacity:0;transform:scale(.35) translateY(60px) rotate(-2deg)}65%{opacity:1;transform:scale(1.18) translateY(-4px) rotate(1deg)}100%{transform:scale(1)}}@keyframes resultPulse{to{filter:brightness(1.7);box-shadow:0 0 40px #f00,0 0 120px rgba(255,0,0,.8)}}@keyframes loseSlam{0%{opacity:0;transform:scale(1.5)}100%{opacity:1;transform:scale(1)}}@keyframes headlinePulse{to{transform:scale(1.025);filter:brightness(1.8)}}@keyframes screenShakeHard{25%{transform:translate(-9px,5px)}50%{transform:translate(8px,-5px)}75%{transform:translate(-6px,-3px)}}@keyframes screenShake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}@keyframes screenFlashRed{50%{filter:brightness(3) saturate(2)}}
 .wheel-wrap:before{content:"";position:absolute;inset:-35px;border-radius:50%;border:3px solid #ff003c;box-shadow:0 0 20px #ff003c,0 0 90px #ff003c;animation:ringPulse .55s infinite alternate;pointer-events:none}.wheel-pointer{animation:pointerPulse .18s infinite alternate}.wheel-segment:nth-child(n+8){color:#fff}.wheel-segment:nth-child(-n+7){color:#aaa}.hub-spinning .wheel{filter:brightness(1.8) saturate(2);}.hub-spinning .wheel-glow{animation:wheelGlow .22s infinite alternate}.hub-spinning .wheel-wrap{animation:megaShake .18s infinite}.hub-spinning .wheel-pointer{animation:pointerPulse .09s infinite alternate}.wheel-charge .arcade-flash{opacity:.18!important;animation:chargeFlash .35s infinite alternate}.wheel-rush .arcade-flash{opacity:.85!important;animation:flashBoom .45s infinite}.wheel-rush .wheel-wrap{filter:brightness(2) saturate(2.5);}.wheel-rush .arcade-particles i{animation-duration:.18s!important;}.wheel-hit .wheel-wrap{animation:megaShake .07s 18}.wheel-hit .wheel{filter:brightness(2.4) saturate(2.5);}.wheel-hit .wheel-glow{animation:wheelGlow .12s infinite alternate}@keyframes ringPulse{to{transform:scale(1.07);opacity:.35}}@keyframes chargeFlash{to{opacity:.65}}</style>
-
-<style id="dohongjonwi-mobile-chat-v3">
-/* Discord-style mobile chat layout */
-.chat-mobile-back{display:none}
-@media (max-width: 767px){
-  .chat-page{width:100%;max-width:none!important;margin:0!important;padding:0 8px 88px!important}
-  .chat-page .chat-layout{display:grid!important;grid-template-columns:1fr!important;gap:0!important;width:100%;height:calc(100dvh - 190px)!important;min-height:0!important;max-height:none!important}
-  .chat-page .chat-sidebar,.chat-page .chat-main{min-width:0!important;width:100%!important;border-radius:16px!important;border:1px solid #dfe3e8!important;background:#fff!important;box-shadow:0 2px 10px rgba(0,0,0,.06)!important}
-  .chat-page .chat-sidebar{overflow:hidden!important}
-  .chat-page .chat-sidebar > div:first-child{padding:8px!important}
-  .chat-page .chat-sidebar > div:first-child button{min-height:44px!important;font-size:14px!important}
-  .chat-page .chat-sidebar .overflow-y-auto{min-height:0!important}
-  .chat-page .chat-sidebar .overflow-y-auto > div:first-child{padding:12px 16px!important;font-size:13px!important}
-  .chat-page .chat-sidebar .overflow-y-auto button{padding:15px 14px!important;min-height:72px!important}
-  .chat-page .chat-sidebar .overflow-y-auto button strong{font-size:15px!important}
-  .chat-page .chat-sidebar .overflow-y-auto button small{font-size:12px!important;line-height:1.45!important}
-  .chat-page .chat-main{display:flex!important}
-  .chat-page .chat-main > div:first-child{min-height:58px!important}
-  .chat-page .chat-main h2{font-size:17px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .chat-page .chat-main .chat-mobile-back{display:block!important}
-  .chat-page .chat-main [class*="overflow-y-auto"]{padding:14px 12px 18px!important;background:#f5f7fa!important}
-  .chat-page .chat-main [class*="max-w-[78%]"]{max-width:86%!important}
-  .chat-page .chat-main [class*="whitespace-pre-wrap"]{font-size:15px!important;line-height:1.55!important;padding:10px 13px!important}
-  .chat-page .chat-main [class*="mb-4 flex gap-3"]{margin-bottom:12px!important;gap:8px!important}
-  .chat-page .chat-main form{padding:9px!important;padding-bottom:max(9px,env(safe-area-inset-bottom))!important}
-  .chat-page .chat-main form input,.chat-page .chat-main form textarea{font-size:16px!important;min-height:46px!important}
-  .chat-page .chat-main form button[type="submit"]{width:46px!important;height:46px!important;border-radius:12px!important}
-  .chat-page .chat-main .chat-mobile-back{font-size:14px!important}
-  /* On a phone, show one Discord-like screen at a time. */
-  .chat-page .chat-layout.no-selection .chat-main{display:none!important}
-  .chat-page .chat-layout.has-selection .chat-sidebar{display:none!important}
-  .chat-page .chat-layout.has-selection .chat-main{display:flex!important}
-  .chat-page .chat-layout.no-selection .chat-sidebar{display:flex!important}
-  .chat-page .chat-layout.no-selection .chat-main{display:none!important}
-  .chat-page .chat-layout.no-selection .chat-sidebar .overflow-y-auto{padding-bottom:12px}
-  .chat-page .chat-layout.no-selection .chat-sidebar .overflow-y-auto button{border-bottom:1px solid #edf0f3!important}
-  .chat-page .chat-layout.no-selection .chat-sidebar .overflow-y-auto button:last-child{border-bottom:0!important}
-}
-</style>
 </head>
   <body>
     <div id="root"></div>
@@ -427,85 +388,6 @@ body{color-scheme:light;}
   .chat-page .chat-layout [class*="text-muted-foreground"]{color:#555!important;}
 }
 </style>
-
-<style id="dohongjonwi-season-themes">
-/* 자동 월간 시즌 테마: 매년 현재 월에 맞춰 자동 적용 */
-:root{
-  --season-primary:#2563eb;
-  --season-secondary:#60a5fa;
-  --season-soft:#eff6ff;
-  --season-bg:#f7f9fc;
-  --season-glow:rgba(37,99,235,.16);
-}
-html.season-january{--season-primary:#b91c1c;--season-secondary:#f59e0b;--season-soft:#fff7ed;--season-bg:#fffaf3;--season-glow:rgba(185,28,28,.15)}
-html.season-february{--season-primary:#7c3aed;--season-secondary:#c4b5fd;--season-soft:#f5f3ff;--season-bg:#faf8ff;--season-glow:rgba(124,58,237,.15)}
-html.season-march{--season-primary:#b91c1c;--season-secondary:#2563eb;--season-soft:#eff6ff;--season-bg:#f8fafc;--season-glow:rgba(37,99,235,.14)}
-html.season-april{--season-primary:#ec4899;--season-secondary:#f9a8d4;--season-soft:#fdf2f8;--season-bg:#fff8fb;--season-glow:rgba(236,72,153,.14)}
-html.season-may{--season-primary:#f59e0b;--season-secondary:#22c55e;--season-soft:#fffbeb;--season-bg:#fffdf5;--season-glow:rgba(245,158,11,.14)}
-html.season-june{--season-primary:#16a34a;--season-secondary:#65a30d;--season-soft:#f7fee7;--season-bg:#fbfff7;--season-glow:rgba(22,163,74,.14)}
-html.season-july{--season-primary:#0284c7;--season-secondary:#06b6d4;--season-soft:#ecfeff;--season-bg:#f5fcff;--season-glow:rgba(2,132,199,.15)}
-html.season-august{--season-primary:#1d4ed8;--season-secondary:#dc2626;--season-soft:#eff6ff;--season-bg:#f8fafc;--season-glow:rgba(29,78,216,.15)}
-html.season-september{--season-primary:#ca8a04;--season-secondary:#f59e0b;--season-soft:#fefce8;--season-bg:#fffcf3;--season-glow:rgba(202,138,4,.15)}
-html.season-october{--season-primary:#ea580c;--season-secondary:#7c3aed;--season-soft:#fff7ed;--season-bg:#fffbf7;--season-glow:rgba(234,88,12,.17)}
-html.season-november{--season-primary:#b45309;--season-secondary:#dc2626;--season-soft:#fff7ed;--season-bg:#fffbf7;--season-glow:rgba(180,83,9,.16)}
-html.season-december{--season-primary:#15803d;--season-secondary:#dc2626;--season-soft:#f0fdf4;--season-bg:#f8fff9;--season-glow:rgba(21,128,61,.15)}
-
-/* 기존 사이트 색을 깨뜨리지 않으면서 배경/포인트에만 자연스럽게 반영 */
-html[class*="season-"] body{background:var(--season-bg);}
-html[class*="season-"] #root{--season-primary:var(--season-primary);}
-html[class*="season-"] button:not([data-season-ignore]),
-html[class*="season-"] [role="button"]:not([data-season-ignore]){--season-theme-ring:var(--season-glow);}
-html[class*="season-"] .app-grid{background-image:linear-gradient(var(--season-glow) 1px,transparent 1px),linear-gradient(90deg,var(--season-glow) 1px,transparent 1px);}
-
-/* 시즌 배지 */
-#dohongjonwi-season-badge{position:fixed;right:14px;bottom:14px;z-index:9998;display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid color-mix(in srgb,var(--season-primary) 28%,transparent);border-radius:999px;background:color-mix(in srgb,#fff 82%,var(--season-primary));color:#1f2937;box-shadow:0 8px 24px rgba(15,23,42,.10);backdrop-filter:blur(12px);font-size:12px;font-weight:800;pointer-events:none;opacity:.88;transition:opacity .2s,transform .2s}
-#dohongjonwi-season-badge .season-dot{width:7px;height:7px;border-radius:50%;background:var(--season-primary);box-shadow:0 0 10px var(--season-primary)}
-html.dark #dohongjonwi-season-badge{background:color-mix(in srgb,#111827 88%,var(--season-primary));color:#f8fafc;border-color:color-mix(in srgb,var(--season-primary) 42%,transparent)}
-@media(max-width:640px){#dohongjonwi-season-badge{right:10px;bottom:10px;font-size:11px;padding:7px 9px}}
-</style>
-<script id="dohongjonwi-auto-season-theme">
-(function(){
-  'use strict';
-  const themes={
-    0:{key:'january',name:'설날',emoji:'🧧'},
-    1:{key:'february',name:'정월대보름',emoji:'🌕'},
-    2:{key:'march',name:'삼일절',emoji:'🇰🇷'},
-    3:{key:'april',name:'벚꽃 시즌',emoji:'🌸'},
-    4:{key:'may',name:'어린이날',emoji:'🎈'},
-    5:{key:'june',name:'단오',emoji:'🌿'},
-    6:{key:'july',name:'여름',emoji:'🏖️'},
-    7:{key:'august',name:'광복절',emoji:'🇰🇷'},
-    8:{key:'september',name:'추석',emoji:'🌕'},
-    9:{key:'october',name:'한글날',emoji:'🖋️'},
-    10:{key:'november',name:'단풍 시즌',emoji:'🍁'},
-    11:{key:'december',name:'크리스마스',emoji:'🎄'}
-  };
-  const apply=()=>{
-    const now=new Date();
-    const t=themes[now.getMonth()];
-    if(!t)return;
-    const root=document.documentElement;
-    [...root.classList].filter(c=>c.indexOf('season-')===0).forEach(c=>root.classList.remove(c));
-    root.classList.add('season-'+t.key);
-    root.dataset.season=t.key;
-    root.dataset.seasonName=t.name;
-    root.dataset.seasonEmoji=t.emoji;
-    let badge=document.getElementById('dohongjonwi-season-badge');
-    if(!badge){
-      badge=document.createElement('div');
-      badge.id='dohongjonwi-season-badge';
-      badge.innerHTML='<span class="season-dot"></span><span class="season-label"></span>';
-      document.body.appendChild(badge);
-    }
-    const label=badge.querySelector('.season-label');
-    if(label) label.textContent=t.emoji+' '+t.name+' 테마';
-  };
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});
-  else apply();
-  // 페이지를 오래 켜둔 경우 자정이 지나도 다음 달 테마로 자동 전환
-  setInterval(apply,60*60*1000);
-})();
-</script>
 </body>
 </html>
 
@@ -516,3 +398,68 @@ html.dark #dohongjonwi-season-badge{background:color-mix(in srgb,#111827 88%,var
 @media(max-width:900px){.chat-page .chat-layout{height:calc(100dvh - 180px)!important;min-height:560px!important;max-height:none!important}.chat-page .chat-layout>div:first-child{height:145px!important;min-height:145px!important;max-height:145px!important}.chat-page .chat-layout>div:last-child{height:auto!important;min-height:0!important;flex:1 1 auto}.chat-page .chat-layout>div:last-child .h-full{min-height:0!important}.chat-page .chat-layout .text-xs{font-size:14px!important}.chat-page .chat-layout .text-\[10px\]{font-size:13px!important}.chat-page .chat-layout .text-\[11px\]{font-size:13px!important}.chat-page .chat-layout .text-sm{font-size:16px!important;line-height:1.55!important}.chat-page .chat-layout input{min-height:48px!important}.chat-page .chat-layout button{min-height:44px}.chat-page .chat-layout .px-5{padding-left:14px!important;padding-right:14px!important}.chat-page .chat-layout .py-4{padding-top:11px!important;padding-bottom:11px!important}.chat-page .chat-layout .p-5{padding:14px!important}.chat-page .chat-layout .p-6{padding:16px!important}}
 @media(max-width:640px){.chat-page .chat-layout{height:calc(100dvh - 145px)!important;min-height:520px!important}.chat-page .chat-layout>div:first-child{height:125px!important;min-height:125px!important;max-height:125px!important}.chat-page .chat-layout>div:first-child .overflow-y-auto{display:none}.chat-page .chat-layout .text-xs{font-size:14px!important}.chat-page .chat-layout .text-sm{font-size:16px!important}.chat-page .chat-layout .text-lg{font-size:21px!important}.chat-page .chat-layout [class*="max-w-[78%]"]{max-width:90%!important}.chat-page .chat-layout .rounded-2xl{border-radius:16px!important}.chat-page .chat-layout .p-5{padding:12px!important}}
 </style>
+<style id="dohong-season-theme-v2">
+:root{
+  --season-main:#4f46e5;--season-soft:#eef2ff;--season-glow:rgba(79,70,229,.22);
+  --season-bg1:#f8fafc;--season-bg2:#eef2ff;--season-ink:#172033;
+}
+html[data-season]{background:var(--season-bg1)}
+body[data-season]{background:linear-gradient(135deg,var(--season-bg1),var(--season-bg2))!important;background-attachment:fixed!important;color:var(--season-ink)}
+#dohong-season-decor{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
+.dh-season-float{position:absolute;opacity:.16;filter:drop-shadow(0 5px 12px var(--season-glow));font-size:clamp(22px,3vw,42px);animation:dhFloat 8s ease-in-out infinite}
+.dh-season-float:nth-child(1){left:4%;top:18%;animation-delay:-1s}.dh-season-float:nth-child(2){right:5%;top:27%;animation-delay:-4s}.dh-season-float:nth-child(3){left:12%;bottom:18%;animation-delay:-6s}.dh-season-float:nth-child(4){right:13%;bottom:11%;animation-delay:-2s}
+@keyframes dhFloat{0%,100%{transform:translate3d(0,0,0) rotate(-4deg)}50%{transform:translate3d(0,-14px,0) rotate(5deg)}}
+#dohong-season-badge{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid color-mix(in srgb,var(--season-main) 22%,transparent);border-radius:999px;background:color-mix(in srgb,white 78%,var(--season-soft));backdrop-filter:blur(16px);box-shadow:0 10px 30px var(--season-glow);font:700 12px/1.1 Arial,"Apple SD Gothic Neo",sans-serif;color:var(--season-main)}
+#dohong-season-badge .dh-dot{width:7px;height:7px;border-radius:50%;background:var(--season-main);box-shadow:0 0 0 5px color-mix(in srgb,var(--season-main) 12%,transparent)}
+/* 시즌별 색감 */
+html[data-season="jan"]{--season-main:#b42318;--season-soft:#fff1f2;--season-bg1:#fffaf5;--season-bg2:#fff1df;--season-ink:#3b2118}
+html[data-season="feb"]{--season-main:#6d28d9;--season-soft:#f5f3ff;--season-bg1:#faf8ff;--season-bg2:#eee9ff;--season-ink:#24143f}
+html[data-season="mar"]{--season-main:#b91c1c;--season-soft:#fff1f2;--season-bg1:#fffafa;--season-bg2:#f8e8e8;--season-ink:#351515}
+html[data-season="apr"]{--season-main:#db2777;--season-soft:#fdf2f8;--season-bg1:#fff9fc;--season-bg2:#fceef6;--season-ink:#3a1730}
+html[data-season="may"]{--season-main:#0f766e;--season-soft:#ecfeff;--season-bg1:#f5fffb;--season-bg2:#e9f9f4;--season-ink:#12332e}
+html[data-season="jun"]{--season-main:#15803d;--season-soft:#f0fdf4;--season-bg1:#f7fff8;--season-bg2:#e8f6e9;--season-ink:#17351f}
+html[data-season="jul"]{--season-main:#0284c7;--season-soft:#eff6ff;--season-bg1:#f4fbff;--season-bg2:#e3f3ff;--season-ink:#123047}
+html[data-season="aug"]{--season-main:#1d4ed8;--season-soft:#eff6ff;--season-bg1:#f5f8ff;--season-bg2:#e7efff;--season-ink:#14274a}
+html[data-season="sep"]{--season-main:#a16207;--season-soft:#fffbeb;--season-bg1:#fffdf5;--season-bg2:#f8efd9;--season-ink:#382713}
+html[data-season="oct"]{--season-main:#9a3412;--season-soft:#fff7ed;--season-bg1:#fffaf5;--season-bg2:#f7e7d8;--season-ink:#352016}
+html[data-season="nov"]{--season-main:#9f1239;--season-soft:#fff1f2;--season-bg1:#fffaf7;--season-bg2:#f3e5dc;--season-ink:#35201c}
+html[data-season="dec"]{--season-main:#b91c1c;--season-soft:#fff1f2;--season-bg1:#f9fcff;--season-bg2:#e8f1fa;--season-ink:#182738}
+/* 화면의 주요 카드에만 시즌 포인트를 은은하게 적용 */
+html[data-season] .bg-primary{background-color:var(--season-main)!important}
+html[data-season] .text-primary{color:var(--season-main)!important}
+html[data-season] .border-primary{border-color:var(--season-main)!important}
+html[data-season] .app-grid{background-image:linear-gradient(color-mix(in srgb,var(--season-main) 5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--season-main) 5%,transparent) 1px,transparent 1px)}
+@media(max-width:640px){#dohong-season-badge{right:10px;bottom:10px;padding:8px 11px;font-size:11px}.dh-season-float{opacity:.11}}
+@media(prefers-reduced-motion:reduce){.dh-season-float{animation:none}}
+</style>
+<script>
+(function(){
+  const themes={
+    0:{key:'jan',icon:'🧧',name:'설날',decor:['🧧','🪭','✨','🏮']},
+    1:{key:'feb',icon:'🌕',name:'정월대보름',decor:['🌕','✨','🥜','🏮']},
+    2:{key:'mar',icon:'🇰🇷',name:'삼일절',decor:['🇰🇷','🌿','✦','🕊️']},
+    3:{key:'apr',icon:'🌸',name:'벚꽃 시즌',decor:['🌸','🌷','🦋','✨']},
+    4:{key:'may',icon:'🎈',name:'어린이날',decor:['🎈','🧸','🎠','⭐']},
+    5:{key:'jun',icon:'🌿',name:'단오',decor:['🌿','🎋','🪁','☀️']},
+    6:{key:'jul',icon:'🏖️',name:'여름',decor:['🌊','☀️','🏖️','🍉']},
+    7:{key:'aug',icon:'🇰🇷',name:'광복절',decor:['🇰🇷','✨','🌿','☀️']},
+    8:{key:'sep',icon:'🌕',name:'추석',decor:['🌕','🌾','🏮','🥮']},
+    9:{key:'oct',icon:'🖋️',name:'한글날',decor:['🖋️','🍂','📜','✨']},
+    10:{key:'nov',icon:'🍁',name:'가을·단풍',decor:['🍁','🍂','☕','✨']},
+    11:{key:'dec',icon:'🎄',name:'크리스마스',decor:['🎄','❄️','🎁','✨']}
+  };
+  function apply(){
+    const t=themes[new Date().getMonth()];
+    document.documentElement.dataset.season=t.key;
+    document.body.dataset.season=t.key;
+    let layer=document.getElementById('dohong-season-decor');
+    if(!layer){layer=document.createElement('div');layer.id='dohong-season-decor';document.body.appendChild(layer)}
+    layer.innerHTML=t.decor.map(x=>'<span class="dh-season-float">'+x+'</span>').join('');
+    let badge=document.getElementById('dohong-season-badge');
+    if(!badge){badge=document.createElement('div');badge.id='dohong-season-badge';document.body.appendChild(badge)}
+    badge.innerHTML='<span class="dh-dot"></span><span>'+t.icon+' '+t.name+' 테마</span>';
+  }
+  function ready(){apply();setInterval(apply,60*60*1000)}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
+})();
+</script>

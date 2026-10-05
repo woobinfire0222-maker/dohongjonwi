@@ -398,68 +398,85 @@ body{color-scheme:light;}
 @media(max-width:900px){.chat-page .chat-layout{height:calc(100dvh - 180px)!important;min-height:560px!important;max-height:none!important}.chat-page .chat-layout>div:first-child{height:145px!important;min-height:145px!important;max-height:145px!important}.chat-page .chat-layout>div:last-child{height:auto!important;min-height:0!important;flex:1 1 auto}.chat-page .chat-layout>div:last-child .h-full{min-height:0!important}.chat-page .chat-layout .text-xs{font-size:14px!important}.chat-page .chat-layout .text-\[10px\]{font-size:13px!important}.chat-page .chat-layout .text-\[11px\]{font-size:13px!important}.chat-page .chat-layout .text-sm{font-size:16px!important;line-height:1.55!important}.chat-page .chat-layout input{min-height:48px!important}.chat-page .chat-layout button{min-height:44px}.chat-page .chat-layout .px-5{padding-left:14px!important;padding-right:14px!important}.chat-page .chat-layout .py-4{padding-top:11px!important;padding-bottom:11px!important}.chat-page .chat-layout .p-5{padding:14px!important}.chat-page .chat-layout .p-6{padding:16px!important}}
 @media(max-width:640px){.chat-page .chat-layout{height:calc(100dvh - 145px)!important;min-height:520px!important}.chat-page .chat-layout>div:first-child{height:125px!important;min-height:125px!important;max-height:125px!important}.chat-page .chat-layout>div:first-child .overflow-y-auto{display:none}.chat-page .chat-layout .text-xs{font-size:14px!important}.chat-page .chat-layout .text-sm{font-size:16px!important}.chat-page .chat-layout .text-lg{font-size:21px!important}.chat-page .chat-layout [class*="max-w-[78%]"]{max-width:90%!important}.chat-page .chat-layout .rounded-2xl{border-radius:16px!important}.chat-page .chat-layout .p-5{padding:12px!important}}
 </style>
-<style id="dohong-season-theme-v2">
+<style id="dohong-season-theme-v3">
 :root{
-  --season-main:#4f46e5;--season-soft:#eef2ff;--season-glow:rgba(79,70,229,.22);
-  --season-bg1:#f8fafc;--season-bg2:#eef2ff;--season-ink:#172033;
+  --season-main:#1f5fae;--season-accent:#d88b2b;--season-bg:#f6f8fb;--season-paper:#fffdf8;
+  --season-ink:#172033;--season-muted:#667085;--season-line:rgba(31,95,174,.14);--season-glow:rgba(31,95,174,.18);
 }
-html[data-season]{background:var(--season-bg1)}
-body[data-season]{background:linear-gradient(135deg,var(--season-bg1),var(--season-bg2))!important;background-attachment:fixed!important;color:var(--season-ink)}
-#dohong-season-decor{position:fixed;inset:0;pointer-events:none;z-index:5;overflow:hidden}
-.dh-season-float{position:absolute;opacity:.16;filter:drop-shadow(0 5px 12px var(--season-glow));font-size:clamp(22px,3vw,42px);animation:dhFloat 8s ease-in-out infinite}
-.dh-season-float:nth-child(1){left:4%;top:18%;animation-delay:-1s}.dh-season-float:nth-child(2){right:5%;top:27%;animation-delay:-4s}.dh-season-float:nth-child(3){left:12%;bottom:18%;animation-delay:-6s}.dh-season-float:nth-child(4){right:13%;bottom:11%;animation-delay:-2s}
-@keyframes dhFloat{0%,100%{transform:translate3d(0,0,0) rotate(-4deg)}50%{transform:translate3d(0,-14px,0) rotate(5deg)}}
-#dohong-season-badge{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid color-mix(in srgb,var(--season-main) 22%,transparent);border-radius:999px;background:color-mix(in srgb,white 78%,var(--season-soft));backdrop-filter:blur(16px);box-shadow:0 10px 30px var(--season-glow);font:700 12px/1.1 Arial,"Apple SD Gothic Neo",sans-serif;color:var(--season-main)}
-#dohong-season-badge .dh-dot{width:7px;height:7px;border-radius:50%;background:var(--season-main);box-shadow:0 0 0 5px color-mix(in srgb,var(--season-main) 12%,transparent)}
-/* 시즌별 색감 */
-html[data-season="jan"]{--season-main:#b42318;--season-soft:#fff1f2;--season-bg1:#fffaf5;--season-bg2:#fff1df;--season-ink:#3b2118}
-html[data-season="feb"]{--season-main:#6d28d9;--season-soft:#f5f3ff;--season-bg1:#faf8ff;--season-bg2:#eee9ff;--season-ink:#24143f}
-html[data-season="mar"]{--season-main:#b91c1c;--season-soft:#fff1f2;--season-bg1:#fffafa;--season-bg2:#f8e8e8;--season-ink:#351515}
-html[data-season="apr"]{--season-main:#db2777;--season-soft:#fdf2f8;--season-bg1:#fff9fc;--season-bg2:#fceef6;--season-ink:#3a1730}
-html[data-season="may"]{--season-main:#0f766e;--season-soft:#ecfeff;--season-bg1:#f5fffb;--season-bg2:#e9f9f4;--season-ink:#12332e}
-html[data-season="jun"]{--season-main:#15803d;--season-soft:#f0fdf4;--season-bg1:#f7fff8;--season-bg2:#e8f6e9;--season-ink:#17351f}
-html[data-season="jul"]{--season-main:#0284c7;--season-soft:#eff6ff;--season-bg1:#f4fbff;--season-bg2:#e3f3ff;--season-ink:#123047}
-html[data-season="aug"]{--season-main:#1d4ed8;--season-soft:#eff6ff;--season-bg1:#f5f8ff;--season-bg2:#e7efff;--season-ink:#14274a}
-html[data-season="sep"]{--season-main:#a16207;--season-soft:#fffbeb;--season-bg1:#fffdf5;--season-bg2:#f8efd9;--season-ink:#382713}
-html[data-season="oct"]{--season-main:#9a3412;--season-soft:#fff7ed;--season-bg1:#fffaf5;--season-bg2:#f7e7d8;--season-ink:#352016}
-html[data-season="nov"]{--season-main:#9f1239;--season-soft:#fff1f2;--season-bg1:#fffaf7;--season-bg2:#f3e5dc;--season-ink:#35201c}
-html[data-season="dec"]{--season-main:#b91c1c;--season-soft:#fff1f2;--season-bg1:#f9fcff;--season-bg2:#e8f1fa;--season-ink:#182738}
-/* 화면의 주요 카드에만 시즌 포인트를 은은하게 적용 */
+html[data-season]{background:var(--season-bg)}
+body[data-season]{background:var(--season-bg)!important;color:var(--season-ink);background-attachment:fixed!important}
+/* Seasonal canvas: a real visual layer, not just a badge. */
+#dohong-season-art{position:fixed;inset:0;pointer-events:none;z-index:4;overflow:hidden}
+#dohong-season-art:before{content:"";position:absolute;inset:0;background:
+ radial-gradient(circle at 82% 18%,color-mix(in srgb,var(--season-accent) 16%,transparent),transparent 23%),
+ radial-gradient(circle at 12% 82%,color-mix(in srgb,var(--season-main) 10%,transparent),transparent 26%);}
+.dh-season-orb{position:absolute;border-radius:50%;opacity:.24;filter:blur(1px);animation:dhOrb 10s ease-in-out infinite}
+.dh-season-orb.o1{width:300px;height:300px;right:-120px;top:80px;background:radial-gradient(circle,var(--season-accent),transparent 68%)}
+.dh-season-orb.o2{width:240px;height:240px;left:-120px;bottom:50px;background:radial-gradient(circle,var(--season-main),transparent 68%);animation-delay:-4s}
+@keyframes dhOrb{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-18px,0)}}
+.dh-season-symbol{position:absolute;font-size:clamp(24px,3vw,46px);opacity:.13;filter:drop-shadow(0 8px 20px var(--season-glow));animation:dhSymbol 9s ease-in-out infinite}
+.dh-season-symbol:nth-child(4){left:4%;top:20%;transform:rotate(-10deg)}
+.dh-season-symbol:nth-child(5){right:4%;top:34%;animation-delay:-3s}
+.dh-season-symbol:nth-child(6){left:10%;bottom:12%;animation-delay:-6s}
+.dh-season-symbol:nth-child(7){right:15%;bottom:10%;animation-delay:-1s}
+@keyframes dhSymbol{0%,100%{translate:0 0 rotate(0)}50%{translate:0 -12px rotate(6deg)}}
+/* Main content gets a seasonal surface treatment while navigation stays readable. */
+html[data-season] .app-grid{background-image:var(--season-pattern)!important;background-size:var(--season-pattern-size,42px 42px)!important}
 html[data-season] .bg-primary{background-color:var(--season-main)!important}
 html[data-season] .text-primary{color:var(--season-main)!important}
 html[data-season] .border-primary{border-color:var(--season-main)!important}
-html[data-season] .app-grid{background-image:linear-gradient(color-mix(in srgb,var(--season-main) 5%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--season-main) 5%,transparent) 1px,transparent 1px)}
-@media(max-width:640px){#dohong-season-badge{right:10px;bottom:10px;padding:8px 11px;font-size:11px}.dh-season-float{opacity:.11}}
-@media(prefers-reduced-motion:reduce){.dh-season-float{animation:none}}
+html[data-season] main [class*="rounded-3xl"],html[data-season] main [class*="rounded-2xl"]{transition:transform .2s ease,box-shadow .2s ease}
+html[data-season] main [class*="rounded-3xl"]:hover{box-shadow:0 18px 45px rgba(16,24,40,.09),0 0 0 1px var(--season-line);}
+/* Seasonal title ribbon */
+#dohong-season-ribbon{position:fixed;right:22px;top:82px;z-index:30;display:flex;align-items:center;gap:10px;padding:9px 13px 9px 10px;border:1px solid var(--season-line);border-radius:16px;background:rgba(255,255,255,.72);backdrop-filter:blur(18px);box-shadow:0 10px 30px rgba(16,24,40,.07);font:700 12px/1.2 "Pretendard","Noto Sans KR",sans-serif;color:var(--season-ink)}
+#dohong-season-ribbon .season-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:color-mix(in srgb,var(--season-accent) 15%,white);font-size:17px}
+#dohong-season-ribbon .season-kicker{display:block;font-size:9px;letter-spacing:.12em;color:var(--season-main);margin-bottom:2px}
+#dohong-season-ribbon .season-name{display:block}
+/* Per-season visual systems */
+html[data-season="jan"]{--season-main:#9f1d20;--season-accent:#d59a28;--season-bg:#fbf7ef;--season-paper:#fffdf7;--season-pattern:linear-gradient(90deg,rgba(159,29,32,.055) 1px,transparent 1px),linear-gradient(rgba(159,29,32,.055) 1px,transparent 1px);--season-pattern-size:32px 32px}
+html[data-season="feb"]{--season-main:#6246a8;--season-accent:#d6a84f;--season-bg:#f7f4fb;--season-pattern:radial-gradient(circle at 25% 25%,rgba(98,70,168,.08) 0 2px,transparent 3px);--season-pattern-size:30px 30px}
+html[data-season="mar"]{--season-main:#9e1b32;--season-accent:#263c8c;--season-bg:#faf7f6;--season-pattern:linear-gradient(45deg,rgba(158,27,50,.035) 25%,transparent 25% 75%,rgba(158,27,50,.035) 75%);--season-pattern-size:36px 36px}
+html[data-season="apr"]{--season-main:#c83b78;--season-accent:#f4a9c8;--season-bg:#fff8fb;--season-pattern:radial-gradient(circle,rgba(200,59,120,.11) 0 2px,transparent 3px);--season-pattern-size:34px 34px}
+html[data-season="may"]{--season-main:#087f73;--season-accent:#f4b942;--season-bg:#f5fbf8;--season-pattern:radial-gradient(circle at 20% 30%,rgba(8,127,115,.07),transparent 18%);--season-pattern-size:48px 48px}
+html[data-season="jun"]{--season-main:#16733d;--season-accent:#e3ad45;--season-bg:#f6fbf4;--season-pattern:linear-gradient(135deg,rgba(22,115,61,.045) 25%,transparent 25% 75%,rgba(22,115,61,.045) 75%);--season-pattern-size:40px 40px}
+html[data-season="jul"]{--season-main:#087caf;--season-accent:#f3c64d;--season-bg:#f1fbff;--season-pattern:radial-gradient(ellipse at 50% 0%,rgba(8,124,175,.09),transparent 38%);--season-pattern-size:100% 70px}
+html[data-season="aug"]{--season-main:#1e3f8f;--season-accent:#d5a329;--season-bg:#f5f8ff;--season-pattern:linear-gradient(90deg,rgba(30,63,143,.045) 1px,transparent 1px);--season-pattern-size:28px 28px}
+html[data-season="sep"]{--season-main:#8a5a17;--season-accent:#d39b38;--season-bg:#fcf8ef;--season-pattern:radial-gradient(circle,rgba(138,90,23,.08) 0 1px,transparent 2px);--season-pattern-size:28px 28px}
+html[data-season="oct"]{--season-main:#4f3928;--season-accent:#b47a36;--season-bg:#f7f0e5;--season-pattern:linear-gradient(90deg,rgba(79,57,40,.045) 1px,transparent 1px),linear-gradient(rgba(79,57,40,.045) 1px,transparent 1px);--season-pattern-size:26px 26px}
+html[data-season="nov"]{--season-main:#8d3f2b;--season-accent:#c78335;--season-bg:#f7f1ec;--season-pattern:radial-gradient(circle at 80% 20%,rgba(141,63,43,.07),transparent 28%);--season-pattern-size:60px 60px}
+html[data-season="dec"]{--season-main:#a51d2d;--season-accent:#2d6b57;--season-bg:#f4f8fb;--season-pattern:radial-gradient(circle,rgba(165,29,45,.08) 0 1px,transparent 2px);--season-pattern-size:26px 26px}
+@media(max-width:900px){#dohong-season-ribbon{top:66px;right:12px;padding:7px 10px}.dh-season-symbol{opacity:.09}.dh-season-orb.o1{width:220px;height:220px}.dh-season-orb.o2{width:180px;height:180px}}
+@media(max-width:640px){#dohong-season-ribbon{top:72px;right:10px}.dh-season-symbol{font-size:28px}.dh-season-orb{opacity:.16}}
+@media(prefers-reduced-motion:reduce){.dh-season-orb,.dh-season-symbol{animation:none}}
 </style>
 <script>
 (function(){
   const themes={
-    0:{key:'jan',icon:'🧧',name:'설날',decor:['🧧','🪭','✨','🏮']},
-    1:{key:'feb',icon:'🌕',name:'정월대보름',decor:['🌕','✨','🥜','🏮']},
-    2:{key:'mar',icon:'🇰🇷',name:'삼일절',decor:['🇰🇷','🌿','✦','🕊️']},
-    3:{key:'apr',icon:'🌸',name:'벚꽃 시즌',decor:['🌸','🌷','🦋','✨']},
-    4:{key:'may',icon:'🎈',name:'어린이날',decor:['🎈','🧸','🎠','⭐']},
-    5:{key:'jun',icon:'🌿',name:'단오',decor:['🌿','🎋','🪁','☀️']},
-    6:{key:'jul',icon:'🏖️',name:'여름',decor:['🌊','☀️','🏖️','🍉']},
-    7:{key:'aug',icon:'🇰🇷',name:'광복절',decor:['🇰🇷','✨','🌿','☀️']},
-    8:{key:'sep',icon:'🌕',name:'추석',decor:['🌕','🌾','🏮','🥮']},
-    9:{key:'oct',icon:'🖋️',name:'한글날',decor:['🖋️','🍂','📜','✨']},
-    10:{key:'nov',icon:'🍁',name:'가을·단풍',decor:['🍁','🍂','☕','✨']},
-    11:{key:'dec',icon:'🎄',name:'크리스마스',decor:['🎄','❄️','🎁','✨']}
+    0:{key:'jan',icon:'🧧',name:'설날',kicker:'1월 · 새해의 시작',decor:['🧧','🏮','✨','🪭']},
+    1:{key:'feb',icon:'🌕',name:'정월대보름',kicker:'2월 · 달빛과 풍요',decor:['🌕','✨','🥜','🏮']},
+    2:{key:'mar',icon:'🇰🇷',name:'삼일절',kicker:'3월 · 기억과 자유',decor:['🇰🇷','🕊️','🌿','✦']},
+    3:{key:'apr',icon:'🌸',name:'벚꽃 시즌',kicker:'4월 · 봄이 피는 달',decor:['🌸','🌷','🦋','✨']},
+    4:{key:'may',icon:'🎈',name:'어린이날',kicker:'5월 · 즐거운 하루',decor:['🎈','🧸','🎠','⭐']},
+    5:{key:'jun',icon:'🌿',name:'단오',kicker:'6월 · 초여름의 전통',decor:['🌿','🪁','🎋','☀️']},
+    6:{key:'jul',icon:'🏖️',name:'여름',kicker:'7월 · 시원한 계절',decor:['🌊','☀️','🍉','🏖️']},
+    7:{key:'aug',icon:'🇰🇷',name:'광복절',kicker:'8월 · 빛을 되찾은 날',decor:['🇰🇷','☀️','🕊️','✨']},
+    8:{key:'sep',icon:'🌕',name:'추석',kicker:'9월 · 풍요로운 한가위',decor:['🌕','🌾','🏮','🥮']},
+    9:{key:'oct',icon:'🖋️',name:'한글날',kicker:'10월 · 한글의 아름다움',decor:['🖋️','ㄱ','🍂','📜']},
+    10:{key:'nov',icon:'🍁',name:'가을·단풍',kicker:'11월 · 깊어지는 가을',decor:['🍁','🍂','☕','✨']},
+    11:{key:'dec',icon:'🎄',name:'크리스마스',kicker:'12월 · 따뜻한 겨울',decor:['🎄','❄️','🎁','✨']}
   };
   function apply(){
     const t=themes[new Date().getMonth()];
     document.documentElement.dataset.season=t.key;
     document.body.dataset.season=t.key;
-    let layer=document.getElementById('dohong-season-decor');
-    if(!layer){layer=document.createElement('div');layer.id='dohong-season-decor';document.body.appendChild(layer)}
-    layer.innerHTML=t.decor.map(x=>'<span class="dh-season-float">'+x+'</span>').join('');
-    let badge=document.getElementById('dohong-season-badge');
-    if(!badge){badge=document.createElement('div');badge.id='dohong-season-badge';document.body.appendChild(badge)}
-    badge.innerHTML='<span class="dh-dot"></span><span>'+t.icon+' '+t.name+' 테마</span>';
+    let art=document.getElementById('dohong-season-art');
+    if(!art){art=document.createElement('div');art.id='dohong-season-art';document.body.appendChild(art)}
+    art.innerHTML='<span class="dh-season-orb o1"></span><span class="dh-season-orb o2"></span>'+t.decor.map(x=>'<span class="dh-season-symbol">'+x+'</span>').join('');
+    let ribbon=document.getElementById('dohong-season-ribbon');
+    if(!ribbon){ribbon=document.createElement('div');ribbon.id='dohong-season-ribbon';document.body.appendChild(ribbon)}
+    ribbon.innerHTML='<span class="season-icon">'+t.icon+'</span><span><span class="season-kicker">'+t.kicker+'</span><span class="season-name">'+t.name+' 테마</span></span>';
   }
-  function ready(){apply();setInterval(apply,60*60*1000)}
+  function ready(){apply();setInterval(apply,30*60*1000)}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
 })();
 </script>

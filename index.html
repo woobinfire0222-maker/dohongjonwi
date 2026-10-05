@@ -427,6 +427,85 @@ body{color-scheme:light;}
   .chat-page .chat-layout [class*="text-muted-foreground"]{color:#555!important;}
 }
 </style>
+
+<style id="dohongjonwi-season-themes">
+/* 자동 월간 시즌 테마: 매년 현재 월에 맞춰 자동 적용 */
+:root{
+  --season-primary:#2563eb;
+  --season-secondary:#60a5fa;
+  --season-soft:#eff6ff;
+  --season-bg:#f7f9fc;
+  --season-glow:rgba(37,99,235,.16);
+}
+html.season-january{--season-primary:#b91c1c;--season-secondary:#f59e0b;--season-soft:#fff7ed;--season-bg:#fffaf3;--season-glow:rgba(185,28,28,.15)}
+html.season-february{--season-primary:#7c3aed;--season-secondary:#c4b5fd;--season-soft:#f5f3ff;--season-bg:#faf8ff;--season-glow:rgba(124,58,237,.15)}
+html.season-march{--season-primary:#b91c1c;--season-secondary:#2563eb;--season-soft:#eff6ff;--season-bg:#f8fafc;--season-glow:rgba(37,99,235,.14)}
+html.season-april{--season-primary:#ec4899;--season-secondary:#f9a8d4;--season-soft:#fdf2f8;--season-bg:#fff8fb;--season-glow:rgba(236,72,153,.14)}
+html.season-may{--season-primary:#f59e0b;--season-secondary:#22c55e;--season-soft:#fffbeb;--season-bg:#fffdf5;--season-glow:rgba(245,158,11,.14)}
+html.season-june{--season-primary:#16a34a;--season-secondary:#65a30d;--season-soft:#f7fee7;--season-bg:#fbfff7;--season-glow:rgba(22,163,74,.14)}
+html.season-july{--season-primary:#0284c7;--season-secondary:#06b6d4;--season-soft:#ecfeff;--season-bg:#f5fcff;--season-glow:rgba(2,132,199,.15)}
+html.season-august{--season-primary:#1d4ed8;--season-secondary:#dc2626;--season-soft:#eff6ff;--season-bg:#f8fafc;--season-glow:rgba(29,78,216,.15)}
+html.season-september{--season-primary:#ca8a04;--season-secondary:#f59e0b;--season-soft:#fefce8;--season-bg:#fffcf3;--season-glow:rgba(202,138,4,.15)}
+html.season-october{--season-primary:#ea580c;--season-secondary:#7c3aed;--season-soft:#fff7ed;--season-bg:#fffbf7;--season-glow:rgba(234,88,12,.17)}
+html.season-november{--season-primary:#b45309;--season-secondary:#dc2626;--season-soft:#fff7ed;--season-bg:#fffbf7;--season-glow:rgba(180,83,9,.16)}
+html.season-december{--season-primary:#15803d;--season-secondary:#dc2626;--season-soft:#f0fdf4;--season-bg:#f8fff9;--season-glow:rgba(21,128,61,.15)}
+
+/* 기존 사이트 색을 깨뜨리지 않으면서 배경/포인트에만 자연스럽게 반영 */
+html[class*="season-"] body{background:var(--season-bg);}
+html[class*="season-"] #root{--season-primary:var(--season-primary);}
+html[class*="season-"] button:not([data-season-ignore]),
+html[class*="season-"] [role="button"]:not([data-season-ignore]){--season-theme-ring:var(--season-glow);}
+html[class*="season-"] .app-grid{background-image:linear-gradient(var(--season-glow) 1px,transparent 1px),linear-gradient(90deg,var(--season-glow) 1px,transparent 1px);}
+
+/* 시즌 배지 */
+#dohongjonwi-season-badge{position:fixed;right:14px;bottom:14px;z-index:9998;display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid color-mix(in srgb,var(--season-primary) 28%,transparent);border-radius:999px;background:color-mix(in srgb,#fff 82%,var(--season-primary));color:#1f2937;box-shadow:0 8px 24px rgba(15,23,42,.10);backdrop-filter:blur(12px);font-size:12px;font-weight:800;pointer-events:none;opacity:.88;transition:opacity .2s,transform .2s}
+#dohongjonwi-season-badge .season-dot{width:7px;height:7px;border-radius:50%;background:var(--season-primary);box-shadow:0 0 10px var(--season-primary)}
+html.dark #dohongjonwi-season-badge{background:color-mix(in srgb,#111827 88%,var(--season-primary));color:#f8fafc;border-color:color-mix(in srgb,var(--season-primary) 42%,transparent)}
+@media(max-width:640px){#dohongjonwi-season-badge{right:10px;bottom:10px;font-size:11px;padding:7px 9px}}
+</style>
+<script id="dohongjonwi-auto-season-theme">
+(function(){
+  'use strict';
+  const themes={
+    0:{key:'january',name:'설날',emoji:'🧧'},
+    1:{key:'february',name:'정월대보름',emoji:'🌕'},
+    2:{key:'march',name:'삼일절',emoji:'🇰🇷'},
+    3:{key:'april',name:'벚꽃 시즌',emoji:'🌸'},
+    4:{key:'may',name:'어린이날',emoji:'🎈'},
+    5:{key:'june',name:'단오',emoji:'🌿'},
+    6:{key:'july',name:'여름',emoji:'🏖️'},
+    7:{key:'august',name:'광복절',emoji:'🇰🇷'},
+    8:{key:'september',name:'추석',emoji:'🌕'},
+    9:{key:'october',name:'한글날',emoji:'🖋️'},
+    10:{key:'november',name:'단풍 시즌',emoji:'🍁'},
+    11:{key:'december',name:'크리스마스',emoji:'🎄'}
+  };
+  const apply=()=>{
+    const now=new Date();
+    const t=themes[now.getMonth()];
+    if(!t)return;
+    const root=document.documentElement;
+    [...root.classList].filter(c=>c.indexOf('season-')===0).forEach(c=>root.classList.remove(c));
+    root.classList.add('season-'+t.key);
+    root.dataset.season=t.key;
+    root.dataset.seasonName=t.name;
+    root.dataset.seasonEmoji=t.emoji;
+    let badge=document.getElementById('dohongjonwi-season-badge');
+    if(!badge){
+      badge=document.createElement('div');
+      badge.id='dohongjonwi-season-badge';
+      badge.innerHTML='<span class="season-dot"></span><span class="season-label"></span>';
+      document.body.appendChild(badge);
+    }
+    const label=badge.querySelector('.season-label');
+    if(label) label.textContent=t.emoji+' '+t.name+' 테마';
+  };
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});
+  else apply();
+  // 페이지를 오래 켜둔 경우 자정이 지나도 다음 달 테마로 자동 전환
+  setInterval(apply,60*60*1000);
+})();
+</script>
 </body>
 </html>
 

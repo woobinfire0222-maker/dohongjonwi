@@ -391,6 +391,147 @@ body{color-scheme:light;}
   .chat-page .chat-layout [class*="text-muted-foreground"]{color:#555!important;}
 }
 </style>
+
+<style id="dohong-mobile-chat-responsive">
+/* Discord-like responsive chat layout */
+.chat-page{width:100%;box-sizing:border-box}
+.chat-page .chat-layout{width:100%;overflow:hidden}
+@media (max-width: 700px){
+  html,body,#root{width:100%;max-width:100%;overflow-x:hidden}
+  body{overscroll-behavior-x:none}
+  .chat-page{width:100%;max-width:none!important;margin:0!important;padding:0 8px 10px;box-sizing:border-box}
+  .chat-page .chat-layout{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    grid-template-rows:116px minmax(0,1fr)!important;
+    gap:8px!important;
+    width:100%;
+    height:calc(100dvh - 155px)!important;
+    min-height:0!important;
+    max-height:none!important;
+    overflow:hidden!important;
+  }
+  /* channel / DM drawer becomes a compact horizontal Discord-style rail */
+  .chat-page .chat-layout>div:first-child{
+    width:100%!important;
+    height:116px!important;
+    min-height:116px!important;
+    max-height:116px!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+  }
+  .chat-page .chat-layout>div:first-child>div:first-child{
+    height:48px!important;
+    padding:6px!important;
+    gap:5px!important;
+  }
+  .chat-page .chat-layout>div:first-child>div:first-child button{
+    min-height:36px!important;
+    height:36px!important;
+    padding:6px 9px!important;
+    font-size:13px!important;
+  }
+  .chat-page .chat-layout>div:first-child>div:last-child{
+    display:flex!important;
+    flex-direction:column!important;
+    height:68px!important;
+    min-height:68px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:thin;
+  }
+  .chat-page .chat-layout>div:first-child>div:last-child>div:first-child{
+    position:sticky!important;
+    left:0!important;
+    top:0!important;
+    z-index:2!important;
+    flex:0 0 30px!important;
+    height:30px!important;
+    min-height:30px!important;
+    padding:5px 10px!important;
+    font-size:11px!important;
+    white-space:nowrap!important;
+  }
+  .chat-page .chat-layout>div:first-child>div:last-child>button{
+    flex:0 0 auto!important;
+    min-width:150px!important;
+    width:150px!important;
+    min-height:38px!important;
+    height:38px!important;
+    padding:6px 9px!important;
+    border-bottom:0!important;
+    border-right:1px solid rgba(0,0,0,.07)!important;
+  }
+  /* Keep the member/channel cards in one horizontal strip. */
+  .chat-page .chat-layout>div:first-child>div:last-child{
+    flex-direction:row!important;
+    align-items:stretch!important;
+    gap:5px!important;
+    padding:0 6px 6px!important;
+  }
+  .chat-page .chat-layout>div:first-child>div:last-child>div:first-child{
+    position:absolute!important;
+    width:1px!important;
+    height:1px!important;
+    padding:0!important;
+    margin:-1px!important;
+    overflow:hidden!important;
+    clip:rect(0,0,0,0)!important;
+    white-space:nowrap!important;
+    border:0!important;
+  }
+  .chat-page .chat-layout>div:first-child>div:last-child>button span:last-of-type small{display:none!important}
+  .chat-page .chat-layout>div:first-child>div:last-child>button strong{font-size:13px!important}
+  .chat-page .chat-layout>div:first-child>div:last-child>button span:first-child{width:28px!important;height:28px!important}
+
+  /* message pane takes the rest of the screen */
+  .chat-page .chat-layout>div:last-child{
+    width:100%!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+  }
+  .chat-page .chat-layout>div:last-child>div:first-child{
+    min-height:54px!important;
+    height:54px!important;
+    padding:8px 11px!important;
+  }
+  .chat-page .chat-layout>div:last-child>div:first-child h2{font-size:16px!important;line-height:1.25!important}
+  .chat-page .chat-layout>div:last-child>div:first-child p{font-size:11px!important;margin-top:2px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:72vw}
+  .chat-page .chat-layout>div:last-child>div:nth-child(2){min-height:0!important}
+  .chat-page .chat-layout>div:last-child>div:nth-child(2)>div:first-child{
+    padding:12px 9px 14px!important;
+    scrollbar-width:thin;
+  }
+  .chat-page .chat-layout>div:last-child>div:last-child{padding-bottom:env(safe-area-inset-bottom)!important}
+  .chat-page .chat-layout>div:last-child form{padding:8px!important}
+  .chat-page .chat-layout>div:last-child form>div{gap:6px!important}
+  .chat-page .chat-layout input,.chat-page .chat-layout textarea{
+    min-height:44px!important;
+    height:44px!important;
+    font-size:16px!important;
+    border-radius:12px!important;
+  }
+  .chat-page .chat-layout form button{min-width:44px!important;width:44px!important;height:44px!important;min-height:44px!important;border-radius:12px!important}
+  .chat-page .chat-layout [class*="max-w-[78%]"]{max-width:82%!important}
+  .chat-page .chat-layout .rounded-2xl{border-radius:15px!important}
+}
+@media (max-width:420px){
+  .chat-page{padding-left:5px;padding-right:5px}
+  .chat-page .chat-layout{grid-template-rows:108px minmax(0,1fr)!important;height:calc(100dvh - 145px)!important}
+  .chat-page .chat-layout>div:first-child{height:108px!important;min-height:108px!important;max-height:108px!important}
+  .chat-page .chat-layout>div:first-child>div:first-child{height:44px!important}
+  .chat-page .chat-layout>div:first-child>div:last-child{height:64px!important;min-height:64px!important}
+  .chat-page .chat-layout>div:first-child>div:last-child>button{min-width:135px!important;width:135px!important}
+  .chat-page .chat-layout>div:last-child>div:first-child{height:50px!important;min-height:50px!important}
+  .chat-page .chat-layout>div:last-child>div:nth-child(2)>div:first-child{padding:10px 7px 12px!important}
+}
+@media (min-width:701px){
+  .chat-page .chat-layout{width:100%}
+}
+</style>
 </body>
 </html>
 

@@ -1,0 +1,6 @@
+V5 fixes based on syntax-valid V4.
+- Desktop layout preserved from V4/original desktop styling.
+- Mobile chat starts on room list instead of auto-opening the first room. Desktop still auto-opens the first room.
+- All Chat now means all chat rooms; Department Chat filters only department rooms.
+- File Storage object keys are UUID-only to prevent Invalid key errors caused by filenames; original filename remains in attachment metadata.
+- Seasonal theme remains enabled on app pages and excluded only from the Google/home screen.

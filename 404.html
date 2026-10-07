@@ -77,7 +77,7 @@ async function adminCreatePoll(n,e,r,i,l){const{data:c,error:d}=await Me.rpc("ad
 async function adminClosePoll(n){const{data:e,error:r}=await Me.rpc("admin_close_poll",{p_poll_id:n});return it(e,r,"투표를 종료하지 못했습니다.")}
 async function adminDeletePoll(n){const{data:e,error:r}=await Me.rpc("admin_delete_poll",{p_poll_id:n});return it(e,r,"투표를 삭제하지 못했습니다.")}
 async function resolveChatAttachments(n){return Promise.all((n??[]).map(async e=>{const r=Array.isArray(e.attachments)?e.attachments:[];const i=await Promise.all(r.map(async l=>{if(!l?.path)return l;try{const{data:c}=await Me.storage.from("chat-files").createSignedUrl(l.path,3600);return{...l,url:c?.signedUrl??""}}catch{return{...l,url:""}}}));return{...e,attachments:i}}))}
-async function uploadChatFiles(n){const e=await Ze(),r=Array.from(n??[]);if(r.length>10)throw new Error("한 번에 최대 10개까지 첨부할 수 있습니다.");const i=[];for(const l of r){if(l.size>50*1024*1024)throw new Error("파일은 개당 50MB 이하만 업로드할 수 있습니다.");const c=`${e.id}/${globalThis.crypto?.randomUUID?.()??Math.random().toString(36).slice(2)}-${l.name.replace(/[^\w.\-가-힣]/g,"_")}`,{error:d}=await Me.storage.from("chat-files").upload(c,l,{upsert:!1,contentType:l.type||"application/octet-stream"});if(d)throw new Error(Bn(d,"파일을 업로드하지 못했습니다."));i.push({path:c,name:l.name,type:l.type||"application/octet-stream",size:l.size})}return i}
+async function uploadChatFiles(n){const e=await Ze(),r=Array.from(n??[]);if(r.length>10)throw new Error("한 번에 최대 10개까지 첨부할 수 있습니다.");const i=[];for(const l of r){if(l.size>50*1024*1024)throw new Error("파일은 개당 50MB 이하만 업로드할 수 있습니다.");const c=`${e.id}/${globalThis.crypto?.randomUUID?.()??Math.random().toString(36).slice(2)}`,{error:d}=await Me.storage.from("chat-files").upload(c,l,{upsert:!1,contentType:l.type||"application/octet-stream"});if(d)throw new Error(Bn(d,"파일을 업로드하지 못했습니다. Supabase Storage의 chat-files 버킷과 권한 정책을 확인해 주세요."));i.push({path:c,name:l.name,type:l.type||"application/octet-stream",size:l.size})}return i}
 async function nb(n){await Ze();const{data:e,error:r}=await Me.from("chat_messages").select("id, room_id, sender_id, content, created_at, edited_at, deleted_at, reply_to_id, attachments, profiles:sender_id(display_name)").eq("room_id",n).order("created_at",{ascending:!0});if(r)throw new Error(Bn(r,"채팅 기록을 불러오지 못했습니다."));return resolveChatAttachments((e??[]).map(({profiles:i,...l})=>({...l,sender_name:i?.display_name??"회원"})))}
 async function zC(n,e,r,l=null,a=[]){if((await Ze()).id!==e)throw new Error("본인 계정으로만 메시지를 보낼 수 있습니다.");const payload={room_id:n,sender_id:e,content:r,attachments:a};if(l)payload.reply_to_id=l;const{data:c,error:d}=await Me.from("chat_messages").insert(payload).select().single();const v=it(c,d,"메시지를 보내지 못했습니다.");return v?{...v,sender_name:(await Me.from("profiles").select("display_name").eq("id",e).maybeSingle()).data?.display_name??"회원"}:v}
 async function sb(n){const e=await Ze(),{data:r,error:i}=await Me.from("direct_messages").select("id, sender_id, recipient_id, content, created_at, edited_at, deleted_at, reply_to_id, attachments, profiles:sender_id(display_name)").or(`and(sender_id.eq.${e.id},recipient_id.eq.${n}),and(sender_id.eq.${n},recipient_id.eq.${e.id})`).order("created_at",{ascending:!0});if(i)throw new Error(Bn(i,"DM 기록을 불러오지 못했습니다."));return resolveChatAttachments((r??[]).filter(x=>String(x.sender_id)!==String(x.recipient_id)).map(({profiles:l,...c})=>({...c,sender_name:l?.display_name??"회원"})))}
@@ -106,7 +106,7 @@ function Tr(n){return new Intl.DateTimeFormat("ko-KR",{month:"long",day:"numeric
   const selectRoom=id=>{setRoomId(id);setMemberId("")};
   const selectMember=id=>{setMemberId(id);setRoomId("")};
 
-  T.useEffect(()=>{Promise.all([UC(),LC(),getRanks()]).then(([r,m,k])=>{setRooms(r);setMembers(m);setRanks(k);if(r?.length)setRoomId(r[0].id)}).catch(()=>{setRooms([]);setMembers([]);setRanks([])})},[]);
+  T.useEffect(()=>{Promise.all([UC(),LC(),getRanks()]).then(([r,m,k])=>{setRooms(r);setMembers(m);setRanks(k);if(r?.length&&window.matchMedia("(min-width:701px)").matches)setRoomId(r[0].id)}).catch(()=>{setRooms([]);setMembers([]);setRanks([])})},[]);
   T.useEffect(()=>{refreshUnread()},[]);
   T.useEffect(()=>{atBottomRef.current=atBottom},[atBottom]);
   T.useEffect(()=>{
@@ -193,7 +193,7 @@ function Tr(n){return new Intl.DateTimeFormat("ko-KR",{month:"long",day:"numeric
     ]},msg.id)
   };
   const roomList=rooms??[];
-  const filteredRooms=roomFilter==="department"?roomList.filter(room=>!!room.department):roomList.filter(room=>!room.department);
+  const filteredRooms=roomFilter==="department"?roomList.filter(room=>!!room.department):roomList;
   const listPanel=rooms&&members?m.jsxs(ze,{className:"flex h-full min-h-0 flex-col overflow-hidden",children:[
     m.jsxs("div",{className:"grid shrink-0 grid-cols-2 gap-1 border-b p-3",children:[
       m.jsxs("button",{type:"button",onClick:()=>setMode("room"),className:`rounded-lg px-3 py-2 text-xs font-bold ${mode==="room"?"bg-primary text-primary-foreground":"text-muted-foreground hover:bg-muted"}`,children:[m.jsx(wi,{size:14,className:"mr-1 inline"}),"채팅방"]}),

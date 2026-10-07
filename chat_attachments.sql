@@ -39,3 +39,7 @@ using (
   bucket_id = 'chat-files'
   and (storage.foldername(name))[1] = auth.uid()::text
 );
+
+
+-- attachments return fields are included by the get_chat_messages_with_names / get_dm_messages_with_names
+-- functions in news_chat_fix.sql. Apply that migration after this file if those functions already exist.

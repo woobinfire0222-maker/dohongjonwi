@@ -1,0 +1,1 @@
+Syntax fix: chat renderer rewritten to remove malformed children closing; mobile chat/file attachment UI retained.

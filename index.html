@@ -618,6 +618,15 @@ body{color-scheme:light;}
 .chat-page .chat-layout>div:first-child .grid.grid-cols-2 button{min-height:46px!important}
 }
 </style>
+<style id="dohong-chat-desktop-restore">
+/* Desktop/tablet (701px+): preserve the original two-column chat UI. */
+@media (min-width:701px){
+  .chat-page .chat-layout{display:grid!important;grid-template-columns:270px minmax(0,1fr)!important;gap:12px!important;height:min(680px,calc(100dvh - 190px))!important;min-height:420px!important;max-height:none!important;margin-bottom:0!important;overflow:visible!important}
+  .chat-page .chat-layout>div:first-child,.chat-page .chat-layout>div:last-child{display:flex!important;grid-column:auto!important;grid-row:auto!important;width:auto!important;height:100%!important;min-height:0!important;max-height:none!important}
+  .chat-page .chat-layout .chat-mobile-back{display:none!important}
+  .chat-page .chat-layout>div:first-child .grid.grid-cols-2{display:grid!important}
+}
+</style>
 <style id="dohong-season-theme-v3">
 :root{
   --season-main:#1f5fae;--season-accent:#d88b2b;--season-bg:#f6f8fb;--season-paper:#fffdf8;

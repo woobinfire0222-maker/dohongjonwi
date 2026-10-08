@@ -1,34 +1,31 @@
-돼홍존위 수정본 - 2026-10-06
+이번 수정본
 
-1. DM 자기 자신 제외
-- 회원/DM 상대 조회 RPC에서 auth.uid()와 동일한 프로필을 DB 단계에서 제외.
-- 기존 자기 자신 DM 데이터가 남아 있어도 대화 기록 조회/목록에서 자기 자신이 상대방으로 노출되지 않도록 방어.
-- 새 자기 자신 DM은 기존 direct_messages_not_self CHECK 제약으로 차단.
+1. 기존 행운의 돌림판 복원
+   - mini_game.sql의 play_wheel_game은 기존 30% 당첨 / 70% 실패 로직으로 복원.
+   - 화면에서도 '행운의 돌림판'으로 표시.
 
-2. 채팅 작성자 이름
-- 일반 회원도 채팅/DM 기록에서 작성자 이름을 받을 수 있도록 SECURITY DEFINER 조회 함수를 추가.
-- 기존 메시지에도 profiles.display_name을 기준으로 이름을 붙임.
+2. 초보자 룰렛 신규 추가
+   - 화면 표기: 50:50
+   - DB 규칙: 같은 유저의 beginner_roulette 실행 횟수를 DB에 영속 저장.
+   - 1~3회: 무조건 성공, 배팅 2배 지급.
+   - 4회 이상: 무조건 실패, 지급 0.
+   - RPC: play_beginner_roulette_game(bigint)
 
-3. 뉴스
-- /app/news 뉴스 목록
-- /news/:id 뉴스 상세
-- 최신순 정렬, 제목/내용/작성자/작성일/이미지 URL 지원
-- 공개 뉴스만 일반 회원에게 표시
+3. 다트 신규 추가
+   - 타이밍 액션 UI + 다트가 천천히 이동하는 연출.
+   - 서버 판정: 적중 60%, 실패 40%.
+   - 적중/실패 결과에 강한 시각 효과 적용.
+   - RPC: play_dart_game(bigint)
 
-4. 관리자 뉴스 관리
-- /admin 하단 뉴스 관리
-- 작성/수정/삭제/공개·비공개 지원
+4. 모바일 채팅 계급 표시 보강
+   - 계급 배지를 별도 chat-rank-badge로 표시해 모바일에서도 이름/시간에 밀리지 않도록 수정.
 
-5. Supabase
-- news_chat_fix.sql을 SQL Editor에서 1회 실행해야 합니다.
+5. 프로필 저장 후 계약서로 돌아가는 버그 수정
+   - 저장된 프로필을 부모 상태로 반영할 때 contract_accepted / contract_version을 유지하도록 수정.
 
+6. 모바일 왼쪽 탭 목록 스크롤
+   - 사이드바 메뉴에 세로 스크롤을 허용해 작은 화면에서 항목이 잘리지 않도록 수정.
 
-6. 모바일/프로필 - 2026-10-08
-- 모바일 채팅/DM을 목록-대화 전환 방식으로 정리하고 900px 이하에서 대화 영역을 화면에 맞춤.
-- 긴 닉네임/메시지/첨부 요소의 overflow 방지 및 입력창 터치 영역 개선.
-- 사이드바 모바일 토글과 기존 하단 네비게이션을 유지하면서 관리자/뉴스 등 전역 overflow 보강.
-- 프로필 꾸미기: 기본/하늘/바다/밤/라벤더/민트/핑크/모노톤 테마, 상태메시지, 배경색, 이름/상태 색상, 아이콘/이모지.
-- 설정은 profiles.profile_customization JSONB에 저장. 이미지 업로드는 추가하지 않음.
-- chat/profile 번들의 구문 오류를 수정하여 빈 화면이 발생하던 문제를 방지.
-- 404.html을 수정된 SPA fallback과 동일하게 갱신.
-- Supabase SQL Editor에서 profile_customization.sql을 1회 실행 필요.
+Supabase 적용
+- mini_game.sql: 기존 게임 함수 복원/기본 게임 SQL
+- beginner_roulette_dart.sql: 신규 초보자 룰렛 + 다트 및 actionCount 테이블/RPC

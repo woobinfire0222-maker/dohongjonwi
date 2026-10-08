@@ -546,6 +546,15 @@ main>*{min-width:0}
   .chat-mobile-back{display:none!important}
 }
 @media (max-width: 767px){
+  main [class*="min-w-["]{min-width:0!important}
+  main [class*="w-[1180px]"],main [class*="w-[584px]"]{max-width:100%!important;width:100%!important}
+  .chat-page .chat-layout{margin-bottom:0!important}
+  .chat-page .chat-layout .chat-mobile-selector-title{display:block!important}
+  .chat-page .chat-layout{grid-template-columns:1fr!important}
+  .chat-page .chat-layout>div:first-child,.chat-page .chat-layout>div:last-child{grid-column:1!important;grid-row:1!important;width:100%!important;min-width:0!important}
+  .chat-page .chat-layout.chat-list-mode>div:last-child{display:none!important}
+  .chat-page .chat-layout.chat-has-selection>div:first-child{display:none!important}
+  .chat-page .chat-layout .chat-mobile-back{display:inline-flex!important}
   .grid,.flex{min-width:0}
   .overflow-x-auto{max-width:100%;-webkit-overflow-scrolling:touch}
   [role="dialog"]{max-width:calc(100vw - 24px)}
@@ -554,11 +563,6 @@ main>*{min-width:0}
 }
 </style>
 
-@media (max-width: 767px){
-  main [class*="min-w-["]{min-width:0!important}
-  main [class*="w-[1180px]"],main [class*="w-[584px]"]{max-width:100%!important;width:100%!important}
-  .chat-page .chat-layout{margin-bottom:0!important}
-}
 </head>
   <body>
     <div id="root"></div>
@@ -750,6 +754,7 @@ body{color-scheme:light;}
 .chat-page .chat-layout .py-4{padding-top:11px!important;padding-bottom:11px!important}
 .chat-page .chat-layout .p-5{padding:14px!important}
 .chat-page .chat-layout .p-6{padding:16px!important}
+.chat-page .chat-layout .chat-mobile-selector-title{display:none}
 .chat-page .chat-layout .chat-mobile-back{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;min-height:40px!important}
 .chat-page .chat-layout .chat-mobile-back+div{min-width:0}
 }

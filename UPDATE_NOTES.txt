@@ -21,3 +21,14 @@
 
 5. Supabase
 - news_chat_fix.sql을 SQL Editor에서 1회 실행해야 합니다.
+
+
+6. 모바일/프로필 - 2026-10-08
+- 모바일 채팅/DM을 목록-대화 전환 방식으로 정리하고 900px 이하에서 대화 영역을 화면에 맞춤.
+- 긴 닉네임/메시지/첨부 요소의 overflow 방지 및 입력창 터치 영역 개선.
+- 사이드바 모바일 토글과 기존 하단 네비게이션을 유지하면서 관리자/뉴스 등 전역 overflow 보강.
+- 프로필 꾸미기: 기본/하늘/바다/밤/라벤더/민트/핑크/모노톤 테마, 상태메시지, 배경색, 이름/상태 색상, 아이콘/이모지.
+- 설정은 profiles.profile_customization JSONB에 저장. 이미지 업로드는 추가하지 않음.
+- chat/profile 번들의 구문 오류를 수정하여 빈 화면이 발생하던 문제를 방지.
+- 404.html을 수정된 SPA fallback과 동일하게 갱신.
+- Supabase SQL Editor에서 profile_customization.sql을 1회 실행 필요.
